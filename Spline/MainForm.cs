@@ -134,7 +134,7 @@ namespace Spline
                 // которая будет рисоваться голубым цветом (Color.Blue),
                 // Опорные точки выделяться не будут (SymbolType.None)
                 LineItem myCurve = pane.AddCurve("exp", list, Color.Blue, SymbolType.None);
-                LineItem myCurveAprox = pane.AddCurve("Aprox", list_aprox, Color.Red, SymbolType.Circle);
+                LineItem myCurveAprox = pane.AddCurve("Aprox", list_aprox, Color.Red, SymbolType.None);
                 // Включим отображение сетки
                 pane.XAxis.MajorGrid.IsVisible = true;
                 pane.YAxis.MajorGrid.IsVisible = true;
@@ -154,11 +154,15 @@ namespace Spline
                
                 double h = (xmax - xmin) / Convert.ToDouble(100);
                 // Заполняем список точек
+                double ymax_limit = 0;
                 for (double x = xmin; x <= xmax; x += h)
                 {
 
                     double fx = Math.Abs(Func(x) - AproximFunc(x, coef));
-                    
+                    if (fx > ymax_limit)
+                    {
+                        ymax_limit = fx;
+                    }
                     // добавим в список точку
                     list_1.Add(x, fx);
 
@@ -168,10 +172,18 @@ namespace Spline
                 // которая будет рисоваться голубым цветом (Color.Blue),
                 // Опорные точки выделяться не будут (SymbolType.None)
                 LineItem newCurves = pane2.AddCurve("Ro", list_1, Color.Blue, SymbolType.None);
+                list_1 = new PointPairList();
+                list_1.Add(xmin,ymax_limit);
+                list_1.Add(xmax, ymax_limit);
+                newCurves = pane2.AddCurve("Mu", list_1, Color.Red, SymbolType.None);
                 
                 // Включим отображение сетки
-                pane.XAxis.MajorGrid.IsVisible = true;
-                pane.YAxis.MajorGrid.IsVisible = true;
+                pane2.XAxis.MajorGrid.IsVisible = true;
+                pane2.YAxis.MajorGrid.IsVisible = true;
+                pane2.YAxis.Scale.Max = 2*ymax_limit;
+                pane2.YAxis.Scale.Min = 0;
+                pane2.XAxis.Scale.Max = xmax;
+                pane2.XAxis.Scale.Min = xmin;
                 // Вызываем метод AxisChange (), чтобы обновить данные об осях. 
                 // В противном случае на рисунке будет показана только часть графика, 
                 // которая умещается в интервалы по осям, установленные по умолчанию

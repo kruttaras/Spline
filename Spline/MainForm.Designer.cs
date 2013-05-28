@@ -6,6 +6,7 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+using Spline.Models;
 namespace Spline
 {
 	partial class MainForm
@@ -41,6 +42,7 @@ namespace Spline
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.zedGraphControl2 = new ZedGraph.ZedGraphControl();
             this.button1 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -54,7 +56,6 @@ namespace Spline
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.textBox5 = new System.Windows.Forms.TextBox();
             this.textBox6 = new System.Windows.Forms.TextBox();
-            this.zedGraphControl2 = new ZedGraph.ZedGraphControl();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -107,6 +108,20 @@ namespace Spline
             this.tabPage2.Text = "tabPage2";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // zedGraphControl2
+            // 
+            this.zedGraphControl2.Location = new System.Drawing.Point(6, 6);
+            this.zedGraphControl2.Name = "zedGraphControl2";
+            this.zedGraphControl2.ScrollGrace = 0D;
+            this.zedGraphControl2.ScrollMaxX = 0D;
+            this.zedGraphControl2.ScrollMaxY = 0D;
+            this.zedGraphControl2.ScrollMaxY2 = 0D;
+            this.zedGraphControl2.ScrollMinX = 0D;
+            this.zedGraphControl2.ScrollMinY = 0D;
+            this.zedGraphControl2.ScrollMinY2 = 0D;
+            this.zedGraphControl2.Size = new System.Drawing.Size(544, 405);
+            this.zedGraphControl2.TabIndex = 1;
+            // 
             // button1
             // 
             this.button1.Location = new System.Drawing.Point(813, 432);
@@ -122,8 +137,7 @@ namespace Spline
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
-            "тут буде назва функції",
-            "це одна нереалізована"});
+            new AppMath.Sin() });
             this.comboBox1.Location = new System.Drawing.Point(612, 34);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(276, 21);
@@ -219,20 +233,6 @@ namespace Spline
             this.textBox6.Name = "textBox6";
             this.textBox6.Size = new System.Drawing.Size(100, 20);
             this.textBox6.TabIndex = 14;
-            // 
-            // zedGraphControl2
-            // 
-            this.zedGraphControl2.Location = new System.Drawing.Point(6, 6);
-            this.zedGraphControl2.Name = "zedGraphControl2";
-            this.zedGraphControl2.ScrollGrace = 0D;
-            this.zedGraphControl2.ScrollMaxX = 0D;
-            this.zedGraphControl2.ScrollMaxY = 0D;
-            this.zedGraphControl2.ScrollMaxY2 = 0D;
-            this.zedGraphControl2.ScrollMinX = 0D;
-            this.zedGraphControl2.ScrollMinY = 0D;
-            this.zedGraphControl2.ScrollMinY2 = 0D;
-            this.zedGraphControl2.Size = new System.Drawing.Size(544, 405);
-            this.zedGraphControl2.TabIndex = 1;
             // 
             // MainForm
             // 

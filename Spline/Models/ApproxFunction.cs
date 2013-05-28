@@ -5,10 +5,8 @@ using System.Text;
 
 namespace Spline.Models
 {
-    class Function
+    //TODO: finish this  
+    class ApproxFunction
     {
-        private IList<Func<double, double>> FunctionAndDerivetives;
-
-        private double[] Coefitients;
     }
 }
