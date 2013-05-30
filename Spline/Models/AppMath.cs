@@ -9,14 +9,16 @@ namespace Spline.Models
     {
         public abstract class BaseFunc
         {
+            public string Text { get; set; }
+            public object Value { get; set; }
 
-            public  abstract double Val(double x);
+            public abstract double Val(double x);
 
-            public  abstract double diff(double x, int i = 1);
+            public abstract double diff(double x, int i = 1);
 
-            public bool ValidPoints(double a,double b)
+            public bool ValidPoints(double a, double b)
             {
-                if(a>b && (a<=0 & b>=0))
+                if (a > b && (a <= 0 & b >= 0))
                 {
                     return false;
                 }
@@ -26,18 +28,10 @@ namespace Spline.Models
 
 
         }
-        public class Sin: BaseFunc
+        public class Sin : BaseFunc
         {
-            public string Text
-            {
-                get { return this.Text="Sin(x)"; }
-                set { this.Text=value; }
-            }
-            public object Value
-            {
-                get { return this; }
-                set { }
-            }
+      
+
             public override string ToString()
             {
                 return Text;
@@ -65,7 +59,7 @@ namespace Spline.Models
             }
         }
 
-        public  class Ln : BaseFunc
+        public class Ln : BaseFunc
         {
             public override double Val(double x)
             {
@@ -93,7 +87,7 @@ namespace Spline.Models
             }
         }
 
-        public  class Exp : BaseFunc
+        public class Exp : BaseFunc
         {
             public override double Val(double x)
             {

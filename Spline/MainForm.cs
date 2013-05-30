@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using Spline.Models;
 
 namespace Spline
 {
@@ -32,6 +33,13 @@ namespace Spline
            // exp.Parameters["x"] = 2;
           //  exp.Parameters["y"] = 1;
           //  double x = (double)exp.Evaluate();
+             AppMath.BaseFunc item = new AppMath.Sin();
+            item.Text = "Item text1";
+            item.Value = item;
+
+            comboBox1.Items.Add(item);
+
+            comboBox1.SelectedIndex = 0;
 
 
             //
@@ -204,6 +212,13 @@ namespace Spline
                 MessageBox.Show("The formula is wrong or empty");
             }
 
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            AppMath.BaseFunc a=(AppMath.BaseFunc) comboBox1.SelectedItem;
+            MessageBox.Show(""+a.diff(2*Math.PI,1)+"");
+            
         }
     }
 }
