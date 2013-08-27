@@ -7,42 +7,40 @@ namespace Spline.Models
 {
     public class AppMath
     {
-        public abstract class BaseFunc
+        public abstract class BaseFunc: IFunction
         {
             public string Text { get; set; }
-            public object Value { get; set; }
-
-            public abstract double Val(double x);
-
-            public abstract double diff(double x, int i = 1);
-
-            public bool ValidPoints(double a, double b)
-            {
-                if (a > b && (a <= 0 & b >= 0))
-                {
-                    return false;
-                }
-
-                return true;
-            }
-
-
-        }
-        public class Sin : BaseFunc
-        {
-      
-
+       
             public override string ToString()
             {
                 return Text;
             }
+
+            public abstract double Val(double x);
+
+            public abstract double Diff
+                (double x, int i = 1);
+
+            //TODO: make abstract
+            //public bool ValidatePoints(double a, double b);
+            
+        }
+
+        public class Sin : BaseFunc
+        {
+       
+            public Sin()
+            {
+                this.Text = "Sin(x)";
+            }
+
             public override double Val(double x)
             {
                 return Math.Sin(x);
             }
 
 
-            public override double diff(double x, int i = 1)
+            public override double Diff(double x, int i = 1)
             {
                 switch (i)
                 {
@@ -59,14 +57,21 @@ namespace Spline.Models
             }
         }
 
+
         public class Ln : BaseFunc
         {
+
+            public Ln()
+            {
+                this.Text = "Ln(x)";
+            }
+
             public override double Val(double x)
             {
                 return Math.Log(x);
             }
 
-            public override double diff(double x, int i = 1)
+            public override double Diff(double x, int i = 1)
             {
                 if (x == 0)
                 {
@@ -86,27 +91,47 @@ namespace Spline.Models
                 }
             }
         }
+
 
         public class Exp : BaseFunc
         {
-            public override double Val(double x)
+            public Exp()
             {
-                return Math.Log(x);
+                this.Text = "Exp(x)";
             }
 
-            public override double diff(double x, int i = 1)
+            public override double Val(double x)
             {
-                if (x == 0)
-                {
-                    throw new Exception();
-                }
+                return Math.Exp(x);
+            }
+
+            public override double Diff(double x, int i = 1)
+            {
+                return Math.Exp(x);
+            }
+        }
+
+        public class Division : BaseFunc
+        {
+            public Division()
+            {
+                this.Text = "1/(1+x^2)";
+            }
+
+            public override double Val(double x)
+            {
+                return (1/(1+x*x));
+            }
+
+            public override double Diff(double x, int i = 1)
+            {
                 switch (i)
                 {
                     case 1:
-                        return (1 / x);
+                        return (-2*x/Math.Pow((x*x+1),2));
                         break;
                     case 2:
-                        return (-1 / Math.Pow(x, 2));
+                        return ((6*x*x-2)/ Math.Pow((x * x + 1), 3));
                         break;
                     default:
                         throw new Exception();
@@ -116,6 +141,35 @@ namespace Spline.Models
         }
 
 
+        public class Tangens : BaseFunc
+        {
+            public Tangens()
+            {
+                this.Text = "Tg(x)";
+            }
+
+            public override double Val(double x)
+            {
+                return Math.Tan(x);
+            }
+
+            public override double Diff(double x, int i = 1)
+            {
+
+                switch (i)
+                {
+                    case 1:
+                        return Math.Pow((1/Math.Cos(x)),2);
+                        break;
+                    case 2:
+                        return 2 * Math.Tan(x) * Math.Pow((1 / Math.Cos(x)), 2);
+                        break;
+                    default:
+                        throw new Exception();
+                        break;
+                }
+            }
+        }
 
 
 

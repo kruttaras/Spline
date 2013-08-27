@@ -61,6 +61,10 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ApproxFunction.cs" />
+    <Compile Include="Models\ComboBoxItem.cs" />
+    <Compile Include="Models\ErmitSplineUtil.cs" />
+    <Compile Include="Models\FunctionUtil.cs" />
+    <Compile Include="Models\IFunction.cs" />
     <Compile Include="Models\Section.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
