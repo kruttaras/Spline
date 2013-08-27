@@ -2,10 +2,12 @@
 using ZedGraph;
 
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using Spline.Models;
+using Spline.App.Utils;
 
 namespace Spline
 {
@@ -29,6 +31,7 @@ namespace Spline
             pane.Title.Text = "Графік функції та наближення";
             GraphPane pane2 = zedGraphControl2.GraphPane;
             pane2.Title.Text = "Графік функції похибки";
+            
         }
 
         protected double[] exp(AppMath.BaseFunc F, double x0, double x1)
@@ -119,21 +122,26 @@ namespace Spline
                 zedGraphControl1.Invalidate();
                 list_1.Clear();
 
-
+                Logger.Info("Mu  function max value of each section fr function " + Function.ToString(), "MainForm");
+                int LogCounter = 1;
                 foreach (Section sec in section)
                 {
-                    double[] coef = exp(Function, sec.LeftPoint, sec.RightPoint);
-
+                    double[] coef = sec.Coef;
+                    double max = 0;
+                
                     for (double x = sec.LeftPoint; x <= sec.RightPoint; x += 0.001)
                     {
 
                         double fx = Math.Abs(Function.Val(x) - AproximFunc(x, coef));
-
+                        if (fx > max) max = fx;
                         list_1.Add(x, fx);
 
+                        Logger.Info("Mu function = " + list_1.ToArray().ToString(), "MainForm");
+
                     }
+                    Logger.Info("Section#" + LogCounter++ + "Max value = " + max, "MainForm");
                 }
-             
+
                 LineItem newCurves = pane2.AddCurve("Ro", list_1, Color.Blue, SymbolType.None);
                 list_1 = new PointPairList();
                 list_1.Add(xmin,Mu);
@@ -155,6 +163,8 @@ namespace Spline
 
         private void Compute(double a, double b)
         {
+            int LOG_SECTION_COUNTER = 1;
+
             double zl, zp,xmid,xtemp;
             zl = a;
             zp=b;
@@ -169,6 +179,7 @@ namespace Spline
             {
                 xtemp=(xmid+zp)/2.0;
                 prevMu=findMu(zl,xtemp,Function);
+                Logger.Info("Start computing Mu for Section# " + LOG_SECTION_COUNTER++, "MainForm");
                 while(Math.Abs(Mu-prevMu)/Mu>0.01 || prevMu>Mu)
                 {
                     if(prevMu>Mu)
@@ -183,7 +194,7 @@ namespace Spline
                     }
                     prevMu=findMu(zl,xtemp,Function);
 
-
+                    Logger.Info("computed Mu =  " + prevMu, "MainForm");
                 }
 
                 zp=xtemp;
