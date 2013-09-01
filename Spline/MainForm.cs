@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Spline.Models;
 using Spline.App.Utils;
+using Spline.App.Models;
 
 namespace Spline
 {
@@ -34,29 +35,6 @@ namespace Spline
             
         }
 
-        protected double[] exp(AppMath.BaseFunc F, double x0, double x1)
-        {
-            double[] a = new double[4];
-            double x0_x1=(x0 - x1);
-            double LogF0_F1=Math.Log(F.Val(x0) / F.Val(x1));
-            
-
-            double d = a[3] = (F.Diff(x1) / F.Val(x1) + F.Diff(x0) / F.Val(x0)+2*LogF0_F1/(x1-x0))/Math.Pow(-1*x0_x1,2);
-
-            double c = a[2] = ((2 * x0 * x0 - x0 * x1 - x1 * x1) * a[3] - F.Diff(x0) / F.Val(x0) - LogF0_F1 / (-1 * x0_x1)) / (-1 * x0_x1);
-
-            double b = a[1] = 1 / (x1 - x0) * (Math.Log(F.Val(x1) / F.Val(x0)) - a[3] * (Math.Pow(x1, 3) - Math.Pow(x0, 3)) - c * (Math.Pow(x1, 2) - Math.Pow(x0, 2)));
-            //A
-            a[0] = F.Val(x0) * Math.Exp(-1*(d * Math.Pow(x0, 3) + c * Math.Pow(x0, 2) + b * x0));
-
-            return  a;
-        }
-
-        protected double AproximFunc(double x, double[] coef)
-        {
-            return (coef[0] * Math.Exp(coef[1] * x + coef[2] * Math.Pow(x, 2) + coef[3] * Math.Pow(x, 3)));
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             section = new List<Section>();
@@ -66,6 +44,7 @@ namespace Spline
             double xmin = Convert.ToDouble(textBox5.Text);
             double xmax = Convert.ToDouble(textBox6.Text);
             Mu = Convert.ToDouble(textBox7.Text);
+            double R = Convert.ToInt32(textBox1.Text);
 
               GraphPane pane = zedGraphControl1.GraphPane;
               GraphPane pane2 = zedGraphControl2.GraphPane;
@@ -84,14 +63,51 @@ namespace Spline
 
                 PointPairList list_1 = new PointPairList();
                 PointPairList aprox = new PointPairList();
+           
+            ZzadanPohubkou result ;
+            double muPlus = 0, muMinus = 0;
+           
+            do{
+                result = new ZzadanPohubkou(xmin, xmax, Function, Mu);
+                result.Compute();
+                int K = result.Section.Count;
+                if (K > R)
+                {
+                    muMinus = Mu;
+                    if (muPlus != 0)
+                    {
+                        Mu = (Mu + muPlus) / 2.0;
 
-                    Compute(xmin, xmax);
+                    }
+                    else
+                    {
+                        Mu *= 1.1;
+                    }
+
+                }
+                if (K < R || (R == K && (Mu - result.Section[K-1].Mu)/Mu > 0.01))
+                {
+                    muPlus = Mu;
+                    if (muMinus != 0)
+                    {
+                        Mu = (Mu + muMinus) / 2.0;
+                    }
+                    else
+                    {
+                        Mu *= 0.9;
+                    }
+                }
+
+            }while(R!=result.Section.Count);
+
+                section = result.Section;
+
                     for (int i = 0; i < section.Count; i++)
                     {
                         for (double x = section[i].LeftPoint; x <= section[i].RightPoint; x += 0.001)
                         {
 
-                            double fx = AproximFunc(x, section[i].Coef);
+                            double fx = ExponencialSpline.AproximFunc(x, section[i].Coef);
 
                             aprox.Add(x, fx);
 
@@ -122,21 +138,19 @@ namespace Spline
                 zedGraphControl1.Invalidate();
                 list_1.Clear();
 
-                Logger.Info("Mu  function max value of each section fr function " + Function.ToString(), "MainForm");
+                Logger.Info("Mu  function max value of each section for function " + Function.ToString(), "MainForm");
                 int LogCounter = 1;
                 foreach (Section sec in section)
                 {
+
                     double[] coef = sec.Coef;
                     double max = 0;
-                
                     for (double x = sec.LeftPoint; x <= sec.RightPoint; x += 0.001)
                     {
 
-                        double fx = Math.Abs(Function.Val(x) - AproximFunc(x, coef));
+                        double fx = Math.Abs(Function.Val(x) - ExponencialSpline.AproximFunc(x, coef));
                         if (fx > max) max = fx;
                         list_1.Add(x, fx);
-
-                        Logger.Info("Mu function = " + list_1.ToArray().ToString(), "MainForm");
 
                     }
                     Logger.Info("Section#" + LogCounter++ + "Max value = " + max, "MainForm");
@@ -160,85 +174,12 @@ namespace Spline
                 zedGraphControl2.Invalidate();
         }
 
-
-        private void Compute(double a, double b)
-        {
-            int LOG_SECTION_COUNTER = 1;
-
-            double zl, zp,xmid,xtemp;
-            zl = a;
-            zp=b;
-            
-            double nextMu, prevMu;
-            prevMu = findMu(zl, zp, Function);
-            while(findMu(zl,b,Function)>Mu){
-            
-            xmid = (zl + zp) / 2;
-            nextMu=findMu(zl,xmid,Function);
-            if(nextMu<Mu && prevMu>Mu )
-            {
-                xtemp=(xmid+zp)/2.0;
-                prevMu=findMu(zl,xtemp,Function);
-                Logger.Info("Start computing Mu for Section# " + LOG_SECTION_COUNTER++, "MainForm");
-                while(Math.Abs(Mu-prevMu)/Mu>0.01 || prevMu>Mu)
-                {
-                    if(prevMu>Mu)
-                    {
-                        zp=xtemp;
-                        xtemp=(xmid+zp)/2.0;
-                    }
-                    else
-                    {
-                        xmid=xtemp;
-                        xtemp=(xtemp+zp)/2.0;  
-                    }
-                    prevMu=findMu(zl,xtemp,Function);
-
-                    Logger.Info("computed Mu =  " + prevMu, "MainForm");
-                }
-
-                zp=xtemp;
-                section.Add(new Section(zl, zp,exp(Function,zl,zp),prevMu));
-                zl=zp;
-                zp=b;
-                
-            }
-            else
-            {
-                zp=(zl+zp)/2;
-            }
-            prevMu=findMu(zl,zp,Function);
-
-            }
-            section.Add(new Section(zl, b,exp(Function,zl,b),prevMu));
-        }
-       
-        private double findMu(double xl,double xr,AppMath.BaseFunc Function)
-        {
-            double[] coef = exp(Function, xl, xr);
-            double h = (xr - xl) / Convert.ToDouble(100);
-                
-                double Mu = 0,fx;
-                for (double x = xl; x <= xr; x += h)
-                {
-
-                    fx = Math.Abs(Function.Val(x) - AproximFunc(x, coef));
-                    if (fx > Mu)
-                    {
-                        Mu = fx;
-                    }
-                }
-            return Mu;
-        }
-
         private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
         {
-           Function=(AppMath.BaseFunc) comboBox1.SelectedValue;
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
 
         }
+
+
+       
     }
 }
