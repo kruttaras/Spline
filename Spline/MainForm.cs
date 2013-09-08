@@ -73,12 +73,13 @@ namespace Spline
             if (radioButton4.Checked)
             {
                 double muPlus = 0, muMinus = 0;
+                int K;
 
                 do
                 {
                     result = new ZzadanPohubkou(xmin, xmax, Function, Mu);
                     result.Compute();
-                    int K = result.Section.Count;
+                    K = result.Section.Count;
                     if (K > R)
                     {
                         muMinus = Mu;
@@ -95,6 +96,7 @@ namespace Spline
                     }
                     if (K < R || (R == K && (Mu - result.Section[K - 1].Mu) / Mu > 0.01))
                     {
+                        K = -1;
                         muPlus = Mu;
                         if (muMinus != 0)
                         {
@@ -106,7 +108,7 @@ namespace Spline
                         }
                     }
 
-                } while (R != result.Section.Count);
+                } while (R != K);
             }
             else
             {
