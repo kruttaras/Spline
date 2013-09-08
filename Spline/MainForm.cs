@@ -19,6 +19,7 @@ namespace Spline
     {
         private Expression expression;
         private double Mu=0.005;
+        double R;
         private AppMath.BaseFunc Function;
         private IList<Section> section=new List<Section>();
         public MainForm()
@@ -44,7 +45,10 @@ namespace Spline
             double xmin = Convert.ToDouble(textBox5.Text);
             double xmax = Convert.ToDouble(textBox6.Text);
             Mu = Convert.ToDouble(textBox7.Text);
-            double R = Convert.ToInt32(textBox1.Text);
+            if (radioButton4.Checked)
+            {
+                R = Convert.ToInt32(textBox1.Text);
+            }
 
               GraphPane pane = zedGraphControl1.GraphPane;
               GraphPane pane2 = zedGraphControl2.GraphPane;
@@ -65,41 +69,50 @@ namespace Spline
                 PointPairList aprox = new PointPairList();
            
             ZzadanPohubkou result ;
-            double muPlus = 0, muMinus = 0;
-           
-            do{
+
+            if (radioButton4.Checked)
+            {
+                double muPlus = 0, muMinus = 0;
+
+                do
+                {
+                    result = new ZzadanPohubkou(xmin, xmax, Function, Mu);
+                    result.Compute();
+                    int K = result.Section.Count;
+                    if (K > R)
+                    {
+                        muMinus = Mu;
+                        if (muPlus != 0)
+                        {
+                            Mu = (Mu + muPlus) / 2.0;
+
+                        }
+                        else
+                        {
+                            Mu *= 1.1;
+                        }
+
+                    }
+                    if (K < R || (R == K && (Mu - result.Section[K - 1].Mu) / Mu > 0.01))
+                    {
+                        muPlus = Mu;
+                        if (muMinus != 0)
+                        {
+                            Mu = (Mu + muMinus) / 2.0;
+                        }
+                        else
+                        {
+                            Mu *= 0.9;
+                        }
+                    }
+
+                } while (R != result.Section.Count);
+            }
+            else
+            {
                 result = new ZzadanPohubkou(xmin, xmax, Function, Mu);
                 result.Compute();
-                int K = result.Section.Count;
-                if (K > R)
-                {
-                    muMinus = Mu;
-                    if (muPlus != 0)
-                    {
-                        Mu = (Mu + muPlus) / 2.0;
-
-                    }
-                    else
-                    {
-                        Mu *= 1.1;
-                    }
-
-                }
-                if (K < R || (R == K && (Mu - result.Section[K-1].Mu)/Mu > 0.01))
-                {
-                    muPlus = Mu;
-                    if (muMinus != 0)
-                    {
-                        Mu = (Mu + muMinus) / 2.0;
-                    }
-                    else
-                    {
-                        Mu *= 0.9;
-                    }
-                }
-
-            }while(R!=result.Section.Count);
-
+            }
                 section = result.Section;
 
                     for (int i = 0; i < section.Count; i++)
@@ -177,6 +190,20 @@ namespace Spline
         private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void radioButton5_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioButton5.Checked)
+            {
+                textBox1.ReadOnly = true;
+                textBox1.Text = "";
+
+            }
+            else
+            {
+                textBox1.ReadOnly = false; 
+            }
         }
 
 
