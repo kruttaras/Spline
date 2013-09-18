@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="App\Models\ExponencialSpline.cs" />
     <Compile Include="App\Utils\Logger.cs" />
+    <Compile Include="IAproximatingFunction.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,7 +66,7 @@
     <Compile Include="App\Models\ApproxFunction.cs" />
     <Compile Include="App\Models\ComboBoxItem.cs" />
     <Compile Include="App\Models\ErmitSplineUtil.cs" />
-    <Compile Include="App\Models\FunctionUtil.cs" />
+    <Compile Include="App\Models\AppUtils.cs" />
     <Compile Include="App\Models\IFunction.cs" />
     <Compile Include="App\Models\Section.cs" />
     <Compile Include="Program.cs" />

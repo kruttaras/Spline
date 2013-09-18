@@ -74,7 +74,7 @@ namespace Spline
                     }
 
                     zp = xtemp;
-                    section.Add(new Section(zl, zp, ExponencialSpline.GetCoeficients(Function, zl, zp), prevMu));
+                    section.Add(new Section(zl, zp, new ExponencialSpline().GetCoeficients(Function, zl, zp), prevMu));
                     zl = zp;
                     zp = b;
 
@@ -86,19 +86,19 @@ namespace Spline
                 prevMu = findMu(zl, zp, Function);
 
             }
-            section.Add(new Section(zl, b, ExponencialSpline.GetCoeficients(Function, zl, b), prevMu));
+            section.Add(new Section(zl, b, new ExponencialSpline().GetCoeficients(Function, zl, b), prevMu));
         }
 
         private double findMu(double xL, double xR, AppMath.BaseFunc Function)
         {
-            double[] coef = ExponencialSpline.GetCoeficients(Function, xL, xR);
+            double[] coef = new ExponencialSpline().GetCoeficients(Function, xL, xR);
             double h = (xR - xL) / Convert.ToDouble(1000);
 
             double Mu = -999, fx;
             for (double x = xL; x <= xR; x += h)
             {
 
-                fx = Math.Abs(Function.Val(x) - ExponencialSpline.AproximFunc(x, coef));
+                fx = Math.Abs(Function.Val(x) - new ExponencialSpline().GetAproximatingFunction(x, coef));
                 if (fx > Mu)
                 {
                     Mu = fx;

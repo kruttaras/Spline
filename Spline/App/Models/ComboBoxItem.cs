@@ -19,7 +19,7 @@ namespace Spline.Models
         {
         }
 
-        public ComboBoxItem(AppMath.BaseFunc func)
+        public ComboBoxItem(ComboBoxBaseItem func)
         {
             this.Text = func.Text;
             this.Value = func;

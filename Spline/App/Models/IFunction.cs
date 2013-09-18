@@ -5,8 +5,13 @@ using System.Text;
 
 namespace Spline.Models
 {
-    interface IFunction
+    public interface IFunction
     {
         double Val(double x);
+    }
+
+    public abstract class ComboBoxBaseItem
+    {
+       public string Text { get; set; }
     }
 }

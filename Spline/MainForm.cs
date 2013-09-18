@@ -27,7 +27,8 @@ namespace Spline
          
             InitializeComponent();
 
-            comboBox1.Items.AddRange(FunctionUtil.GetComboboxItemsWithFunctions());
+            comboBox1.Items.AddRange(AppUtils.GetComboboxItemsWithFunctions());
+            comboBox2.Items.AddRange(AppUtils.GetComboboxItemsWithAproximatingFunctions());
             comboBox1.SelectedIndex = 0;
             GraphPane pane = zedGraphControl1.GraphPane;
             pane.Title.Text = "Графік функції та наближення";
@@ -63,7 +64,7 @@ namespace Spline
                 PointPairList list_aprox = new PointPairList();
 
 
-                list = FunctionUtil.GetPointPairsInRange(xmin, xmax, Function);     
+                list = AppUtils.GetPointPairsInRange(xmin, xmax, Function);     
 
                 PointPairList list_1 = new PointPairList();
                 PointPairList aprox = new PointPairList();
@@ -122,7 +123,7 @@ namespace Spline
                         for (double x = section[i].LeftPoint; x <= section[i].RightPoint; x += 0.001)
                         {
 
-                            double fx = ExponencialSpline.AproximFunc(x, section[i].Coef);
+                            double fx = new ExponencialSpline().GetAproximatingFunction(x, section[i].Coef);
 
                             aprox.Add(x, fx);
 
@@ -163,7 +164,7 @@ namespace Spline
                     for (double x = sec.LeftPoint; x <= sec.RightPoint; x += 0.001)
                     {
 
-                        double fx = Math.Abs(Function.Val(x) - ExponencialSpline.AproximFunc(x, coef));
+                        double fx = Math.Abs(Function.Val(x) - new ExponencialSpline().GetAproximatingFunction(x, coef));
                         if (fx > max) max = fx;
                         list_1.Add(x, fx);
 

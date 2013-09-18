@@ -7,10 +7,8 @@ namespace Spline.Models
 {
     public class AppMath
     {
-        public abstract class BaseFunc: IFunction
+        public abstract class BaseFunc : ComboBoxBaseItem, IFunction
         {
-            public string Text { get; set; }
-       
             public override string ToString()
             {
                 return Text;
