@@ -1,4 +1,6 @@
-﻿using NCalc;
+﻿using System.Drawing.Drawing2D;
+using NCalc;
+using Spline.Properties;
 using ZedGraph;
 
 using System;
@@ -31,9 +33,9 @@ namespace Spline
             comboBox2.Items.AddRange(AppUtils.GetComboboxItemsWithAproximatingFunctions());
             comboBox1.SelectedIndex = 0;
             GraphPane pane = zedGraphControl1.GraphPane;
-            pane.Title.Text = "Графік функції та наближення";
+            pane.Title.Text = Resources.FunctionChartTitle;
             GraphPane pane2 = zedGraphControl2.GraphPane;
-            pane2.Title.Text = "Графік функції похибки";
+            pane2.Title.Text = Resources.SplineChartTitle;
             
         }
 
@@ -137,13 +139,13 @@ namespace Spline
                             richTextBox1.Text += "a["+ii+"]= "+section[i].Coef[ii]+"\n";
 
                         }
-                        richTextBox1.Text += "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"+"\n\n";
+                        richTextBox1.Text += Resources.Separetor+"\n\n";
 
                     }
 
                  
-                LineItem myCurve = pane.AddCurve(Function.Text, list, Color.Blue, SymbolType.None);
-                LineItem myCurve2 = pane.AddCurve("aprox", aprox, Color.Red, SymbolType.None);
+                LineItem myCurve = pane.AddCurve(Resources.ChartFunctionName, list, Color.Blue, SymbolType.None);
+                LineItem myCurve2 = pane.AddCurve(Resources.ChartSplineName, aprox, Color.Red, SymbolType.None);
           
                 pane.XAxis.MajorGrid.IsVisible = true;
                 pane.YAxis.MajorGrid.IsVisible = true;
@@ -174,9 +176,18 @@ namespace Spline
 
                 LineItem newCurves = pane2.AddCurve("Ro", list_1, Color.Blue, SymbolType.None);
                 list_1 = new PointPairList();
+          /*      for (double i = xmin; i < xmax; i+=Math.Abs(xmax - xmin)/20)
+            {
+                list_1.Add(i, Mu);   
+            }*/
                 list_1.Add(xmin,Mu);
                 list_1.Add(xmax,Mu);
-                newCurves = pane2.AddCurve("Mu", list_1, Color.Red, SymbolType.None);
+                newCurves = pane2.AddCurve("Mu", list_1, Color.Red);
+            newCurves.Line.Style =DashStyle.Custom;
+            newCurves.Line.Width = 2;
+            newCurves.Line.DashOn = 5;
+            newCurves.Line.DashOff = 8;
+            newCurves.Symbol.Size = 0;
       
                 pane2.XAxis.MajorGrid.IsVisible = true;
                 pane2.YAxis.MajorGrid.IsVisible = true;
@@ -201,11 +212,13 @@ namespace Spline
             {
                 textBox1.ReadOnly = true;
                 textBox1.Text = "";
+                label1.ForeColor = System.Drawing.Color.DarkGray;
 
             }
             else
             {
-                textBox1.ReadOnly = false; 
+                textBox1.ReadOnly = false;
+                label1.ForeColor = System.Drawing.Color.Black;
             }
         }
 
