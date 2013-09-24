@@ -32,6 +32,7 @@ namespace Spline
             comboBox1.Items.AddRange(AppUtils.GetComboboxItemsWithFunctions());
             comboBox2.Items.AddRange(AppUtils.GetComboboxItemsWithAproximatingFunctions());
             comboBox1.SelectedIndex = 0;
+            comboBox2.SelectedIndex = 0;
             GraphPane pane = zedGraphControl1.GraphPane;
             pane.Title.Text = Resources.FunctionChartTitle;
             GraphPane pane2 = zedGraphControl2.GraphPane;
@@ -44,6 +45,7 @@ namespace Spline
             section = new List<Section>();
           
             Function = ((ComboBoxItem)comboBox1.SelectedItem).GetFunction();
+            AproximatingFunction aproxFunction = ((ComboBoxItem)comboBox2.SelectedItem).GetAproximatingFunction();
 
             double xmin = Convert.ToDouble(textBox5.Text);
             double xmax = Convert.ToDouble(textBox6.Text);
@@ -80,7 +82,7 @@ namespace Spline
 
                 do
                 {
-                    result = new ZzadanPohubkou(xmin, xmax, Function, Mu);
+                    result = new ZzadanPohubkou(xmin, xmax, Function, aproxFunction, Mu);
                     result.Compute();
                     K = result.Section.Count;
                     if (K > R)
@@ -97,7 +99,12 @@ namespace Spline
                         }
 
                     }
-                    if (K < R || (R == K && (Mu - result.Section[K - 1].Mu) / Mu > 0.01))
+                    bool fits=false;
+                    if((Mu - result.Section[K - 1].Mu) / Mu > 0.01)
+                    {
+                        fits = true;
+                    }
+                    if (K < R || R == K && fits)
                     {
                         K = -1;
                         muPlus = Mu;
@@ -115,7 +122,7 @@ namespace Spline
             }
             else
             {
-                result = new ZzadanPohubkou(xmin, xmax, Function, Mu);
+                result = new ZzadanPohubkou(xmin, xmax, Function, aproxFunction, Mu);
                 result.Compute();
             }
                 section = result.Section;
@@ -125,21 +132,21 @@ namespace Spline
                         for (double x = section[i].LeftPoint; x <= section[i].RightPoint; x += 0.001)
                         {
 
-                            double fx = new ExponencialSpline().GetAproximatingFunction(x, section[i].Coef);
+                            double fx = aproxFunction.GetAproximatingFunction(x, section[i].Coef);
 
                             aprox.Add(x, fx);
 
                         }
 
-                        richTextBox1.Text += "Ланка # " + (i + 1) + "\n\nxL= " + section[i].LeftPoint
+                        richTextBox1.Text += "Ланка # " + (i + 1) + "\nxL= " + section[i].LeftPoint
                             +"\nxR= " + section[i].RightPoint + "\nMu= "
-                            + section[i].Mu + "\n\n" + "Коефіцієнти\n\n";
+                            + section[i].Mu + "\n\n" + "Коефіцієнти\n";
                         for (int ii = 0; ii < section[i].Coef.Length; ii++)
                         {
                             richTextBox1.Text += "a["+ii+"]= "+section[i].Coef[ii]+"\n";
 
                         }
-                        richTextBox1.Text += Resources.Separetor+"\n\n";
+                        richTextBox1.Text += Resources.Separetor+"\n";
 
                     }
 
@@ -166,7 +173,7 @@ namespace Spline
                     for (double x = sec.LeftPoint; x <= sec.RightPoint; x += 0.001)
                     {
 
-                        double fx = Math.Abs(Function.Val(x) - new ExponencialSpline().GetAproximatingFunction(x, coef));
+                        double fx = Math.Abs(Function.Val(x) - aproxFunction.GetAproximatingFunction(x, coef));
                         if (fx > max) max = fx;
                         list_1.Add(x, fx);
 
@@ -210,6 +217,7 @@ namespace Spline
         {
             if (radioButton5.Checked)
             {
+                label5.Text = "Похибка";
                 textBox1.ReadOnly = true;
                 textBox1.Text = "";
                 label1.ForeColor = System.Drawing.Color.DarkGray;
@@ -217,6 +225,7 @@ namespace Spline
             }
             else
             {
+                label5.Text = "Точність побудови";
                 textBox1.ReadOnly = false;
                 label1.ForeColor = System.Drawing.Color.Black;
             }

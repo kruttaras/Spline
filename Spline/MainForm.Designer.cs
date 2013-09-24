@@ -64,6 +64,7 @@ namespace Spline
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.radioButton5 = new System.Windows.Forms.RadioButton();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -72,6 +73,7 @@ namespace Spline
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -93,7 +95,7 @@ namespace Spline
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(556, 417);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Графік№1";
+            this.tabPage1.Text = "Графік ф-ції";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // zedGraphControl1
@@ -118,7 +120,7 @@ namespace Spline
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(556, 417);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Графік№2";
+            this.tabPage2.Text = "Графік ф-ції похибки";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // zedGraphControl2
@@ -149,7 +151,7 @@ namespace Spline
             // richTextBox1
             // 
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.richTextBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.richTextBox1.Location = new System.Drawing.Point(6, 15);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(544, 396);
@@ -171,9 +173,9 @@ namespace Spline
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(611, 34);
+            this.comboBox1.Location = new System.Drawing.Point(7, 27);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(258, 26);
+            this.comboBox1.Size = new System.Drawing.Size(245, 26);
             this.comboBox1.TabIndex = 3;
             this.comboBox1.SelectedValueChanged += new System.EventHandler(this.comboBox1_SelectedValueChanged);
             // 
@@ -196,15 +198,15 @@ namespace Spline
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(19, 19);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(115, 13);
+            this.label5.Size = new System.Drawing.Size(50, 13);
             this.label5.TabIndex = 15;
-            this.label5.Text = "Похибка наближення";
+            this.label5.Text = "Похибка";
             // 
             // textBox7
             // 
-            this.textBox7.Location = new System.Drawing.Point(147, 16);
+            this.textBox7.Location = new System.Drawing.Point(133, 16);
             this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(100, 20);
+            this.textBox7.Size = new System.Drawing.Size(114, 20);
             this.textBox7.TabIndex = 16;
             // 
             // label6
@@ -231,7 +233,7 @@ namespace Spline
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.textBox6);
-            this.groupBox1.Location = new System.Drawing.Point(611, 203);
+            this.groupBox1.Location = new System.Drawing.Point(611, 234);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(258, 75);
             this.groupBox1.TabIndex = 19;
@@ -241,12 +243,12 @@ namespace Spline
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.comboBox2);
-            this.groupBox2.Location = new System.Drawing.Point(611, 78);
+            this.groupBox2.Location = new System.Drawing.Point(611, 109);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(258, 65);
             this.groupBox2.TabIndex = 20;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Фунція-сплайна";
+            this.groupBox2.Text = "Ланка сплайна";
             // 
             // comboBox2
             // 
@@ -260,10 +262,10 @@ namespace Spline
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(147, 42);
+            this.textBox1.Location = new System.Drawing.Point(133, 42);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
+            this.textBox1.Size = new System.Drawing.Size(114, 20);
             this.textBox1.TabIndex = 21;
             // 
             // groupBox3
@@ -272,7 +274,7 @@ namespace Spline
             this.groupBox3.Controls.Add(this.textBox1);
             this.groupBox3.Controls.Add(this.textBox7);
             this.groupBox3.Controls.Add(this.label5);
-            this.groupBox3.Location = new System.Drawing.Point(611, 284);
+            this.groupBox3.Location = new System.Drawing.Point(611, 315);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(258, 79);
             this.groupBox3.TabIndex = 22;
@@ -282,7 +284,7 @@ namespace Spline
             // 
             this.label1.AutoSize = true;
             this.label1.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.label1.Location = new System.Drawing.Point(49, 42);
+            this.label1.Location = new System.Drawing.Point(19, 42);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(86, 13);
             this.label1.TabIndex = 22;
@@ -293,7 +295,7 @@ namespace Spline
             // 
             this.groupBox4.Controls.Add(this.radioButton5);
             this.groupBox4.Controls.Add(this.radioButton4);
-            this.groupBox4.Location = new System.Drawing.Point(611, 149);
+            this.groupBox4.Location = new System.Drawing.Point(611, 180);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.Size = new System.Drawing.Size(258, 48);
             this.groupBox4.TabIndex = 23;
@@ -323,16 +325,26 @@ namespace Spline
             this.radioButton4.Text = "Кількістю ланок";
             this.radioButton4.UseVisualStyleBackColor = true;
             // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.comboBox1);
+            this.groupBox5.Location = new System.Drawing.Point(611, 34);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(258, 65);
+            this.groupBox5.TabIndex = 25;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Наближувана функція";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(881, 467);
+            this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.tabControl1);
             this.Name = "MainForm";
@@ -348,6 +360,7 @@ namespace Spline
             this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
             this.ResumeLayout(false);
 
 		}
@@ -375,5 +388,6 @@ namespace Spline
         private System.Windows.Forms.RadioButton radioButton5;
         private System.Windows.Forms.RadioButton radioButton4;
         private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.GroupBox groupBox5;
 	}
 }

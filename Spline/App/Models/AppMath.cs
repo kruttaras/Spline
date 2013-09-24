@@ -169,6 +169,36 @@ namespace Spline.Models
             }
         }
 
+        public class Polinom3 : BaseFunc
+        {
+            public Polinom3()
+            {
+                this.Text = "1+2*x+3*x^2+4*x^3";
+            }
+
+            public override double Val(double x)
+            {
+                return (1+x+x*x+x*x*x);
+            }
+
+            public override double Diff(double x, int i = 1)
+            {
+
+                switch (i)
+                {
+                    case 1:
+                        return (1+2*x+3*x*x);
+                        break;
+                    case 2:
+                        return ( 2 + 6 * x);
+                        break;
+                    default:
+                        throw new Exception();
+                        break;
+                }
+            }
+        }
+
 
 
     }

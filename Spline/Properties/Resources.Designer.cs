@@ -98,7 +98,7 @@ namespace Spline.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Функції та сплайн.
+        ///   Looks up a localized string similar to Графік функції та сплайна.
         /// </summary>
         internal static string FunctionChartTitle {
             get {

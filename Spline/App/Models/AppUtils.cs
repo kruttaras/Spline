@@ -69,7 +69,7 @@ namespace Spline.Models
             object[] cbItems = new object[functions.Count];
             for (int i = 0; i < cbItems.Length; i++)
             {
-                cbItems[i] = new ComboBoxItem((ComboBoxBaseItem) functions[i]);
+                cbItems[i] = new ComboBoxItem(functions[i]);
             }
             return cbItems;
         }

@@ -27,8 +27,21 @@ namespace Spline.Models
 
         public AppMath.BaseFunc GetFunction()
         {
-            return (AppMath.BaseFunc)this.Value;
+            return GetTemplateFunction<AppMath.BaseFunc>();  
         }
 
+        public AproximatingFunction GetAproximatingFunction()
+        {
+            return GetTemplateFunction<AproximatingFunction>();
+        }
+
+        private T GetTemplateFunction<T>()
+        {
+            if (this.Value is T)
+            {
+                return (T) Value;
+            }
+            return default(T);
+        }
     }
 }

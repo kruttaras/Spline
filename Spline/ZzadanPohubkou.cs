@@ -11,19 +11,21 @@ namespace Spline
 {    
     class ZzadanPohubkou
     {
-        private AppMath.BaseFunc Function;
+        private readonly AppMath.BaseFunc _function;
         private double Mu = 0.005;
         private IList<Section> section = new List<Section>();
         private double  a;
         private double b;
+        private AproximatingFunction _aproximatingFunction;
 
 
-       public ZzadanPohubkou(double a, double b, AppMath.BaseFunc Function, double Mu)
+       public ZzadanPohubkou(double a, double b, AppMath.BaseFunc function,AproximatingFunction aproximatingFunction, double Mu)
         {
-            this.Function = Function;
-            this.a = a;
-            this.b = b;
-            this.Mu = Mu;
+           this._function = function;
+           this._aproximatingFunction = aproximatingFunction;
+           this.a = a;
+           this.b = b;
+           this.Mu = Mu;
         }
 
 
@@ -45,16 +47,16 @@ namespace Spline
             zp = b;
 
             double nextMu, prevMu;
-            prevMu = findMu(zl, zp, Function);
-            while (findMu(zl, b, Function) > Mu)
+            prevMu = findMu(zl, zp, _function);
+            while (findMu(zl, b, _function) > Mu)
             {
 
                 xmid = (zl + zp) / 2;
-                nextMu = findMu(zl, xmid, Function);
+                nextMu = findMu(zl, xmid, _function);
                 if (nextMu < Mu && prevMu > Mu)
                 {
                     xtemp = (xmid + zp) / 2.0;
-                    prevMu = findMu(zl, xtemp, Function);
+                    prevMu = findMu(zl, xtemp, _function);
                     Logger.Info("Start computing Mu for Section# " + LOG_SECTION_COUNTER++, "MainForm");
                     while (Math.Abs(Mu - prevMu) / Mu > 0.01 || prevMu > Mu)
                     {
@@ -68,13 +70,13 @@ namespace Spline
                             xmid = xtemp;
                             xtemp = (xtemp + zp) / 2.0;
                         }
-                        prevMu = findMu(zl, xtemp, Function);
+                        prevMu = findMu(zl, xtemp, _function);
 
                         Logger.Info("computed Mu =  " + prevMu, "MainForm");
                     }
 
                     zp = xtemp;
-                    section.Add(new Section(zl, zp, new ExponencialSpline().GetCoeficients(Function, zl, zp), prevMu));
+                    section.Add(new Section(zl, zp, _aproximatingFunction.GetCoeficients(_function, zl, zp), prevMu));
                     zl = zp;
                     zp = b;
 
@@ -83,22 +85,22 @@ namespace Spline
                 {
                     zp = (zl + zp) / 2;
                 }
-                prevMu = findMu(zl, zp, Function);
+                prevMu = findMu(zl, zp, _function);
 
             }
-            section.Add(new Section(zl, b, new ExponencialSpline().GetCoeficients(Function, zl, b), prevMu));
+            section.Add(new Section(zl, b, _aproximatingFunction.GetCoeficients(_function, zl, b), prevMu));
         }
 
         private double findMu(double xL, double xR, AppMath.BaseFunc Function)
         {
-            double[] coef = new ExponencialSpline().GetCoeficients(Function, xL, xR);
+            double[] coef = _aproximatingFunction.GetCoeficients(Function, xL, xR);
             double h = (xR - xL) / Convert.ToDouble(1000);
 
             double Mu = -999, fx;
             for (double x = xL; x <= xR; x += h)
             {
 
-                fx = Math.Abs(Function.Val(x) - new ExponencialSpline().GetAproximatingFunction(x, coef));
+                fx = Math.Abs(Function.Val(x) - _aproximatingFunction.GetAproximatingFunction(x, coef));
                 if (fx > Mu)
                 {
                     Mu = fx;
