@@ -259,6 +259,8 @@ namespace Spline
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(243, 26);
             this.comboBox2.TabIndex = 24;
+            this.comboBox2.SelectedValueChanged += new System.EventHandler(this.comboBox2_SelectedValueChanged);
+            this.comboBox2.VisibleChanged += new System.EventHandler(this.comboBox2_VisibleChanged);
             // 
             // textBox1
             // 

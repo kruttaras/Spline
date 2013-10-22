@@ -9,6 +9,7 @@ namespace Spline.Models
     {
         public abstract class BaseFunc : ComboBoxBaseItem, IFunction
         {
+            private double[] parametrs;
             public override string ToString()
             {
                 return Text;
@@ -16,8 +17,17 @@ namespace Spline.Models
 
             public abstract double Val(double x);
 
-            public abstract double Diff
-                (double x, int i = 1);
+            public abstract double Diff(double x, int i = 1);
+
+            public virtual int GetNumberOfParametrs()
+            {
+                return 0;
+            }
+
+            public void setParametrs(double[] parametrs)
+            {
+                this.parametrs = parametrs;
+            }
 
             //TODO: make abstract
             //public bool ValidatePoints(double a, double b);
@@ -173,7 +183,11 @@ namespace Spline.Models
         {
             public Polinom3()
             {
-                this.Text = "1+2*x+3*x^2+4*x^3";
+                this.Text = "A+B*x+C*x^2+D*x^3";
+            }
+            public override int GetNumberOfParametrs()
+            {
+                return 4;
             }
 
             public override double Val(double x)

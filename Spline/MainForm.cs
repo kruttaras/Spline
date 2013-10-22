@@ -210,7 +210,13 @@ namespace Spline
 
         private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
         {
-
+            AppMath.BaseFunc SelectedFunction = ((ComboBoxItem)comboBox1.SelectedItem).GetFunction();
+            if (SelectedFunction.GetNumberOfParametrs() > 0)
+            {
+                ParametrsForm parametrsForm = ParametrsForm.GetParametrsForm(this, SelectedFunction.GetNumberOfParametrs());
+                parametrsForm.Show();
+                
+            }
         }
 
         private void radioButton5_CheckedChanged(object sender, EventArgs e)
@@ -229,6 +235,16 @@ namespace Spline
                 textBox1.ReadOnly = false;
                 label1.ForeColor = System.Drawing.Color.Black;
             }
+        }
+
+        private void comboBox2_VisibleChanged(object sender, EventArgs e)
+        {
+         
+        }
+
+        private void comboBox2_SelectedValueChanged(object sender, EventArgs e)
+        {
+           
         }
 
 
