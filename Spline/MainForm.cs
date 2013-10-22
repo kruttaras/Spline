@@ -213,7 +213,7 @@ namespace Spline
             AppMath.BaseFunc SelectedFunction = ((ComboBoxItem)comboBox1.SelectedItem).GetFunction();
             if (SelectedFunction.GetNumberOfParametrs() > 0)
             {
-                ParametrsForm parametrsForm = ParametrsForm.GetParametrsForm(this, SelectedFunction.GetNumberOfParametrs());
+                ParametrsForm parametrsForm = new ParametrsForm(this, SelectedFunction.GetNumberOfParametrs());
                 parametrsForm.Show();
                 
             }
