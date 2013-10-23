@@ -82,6 +82,8 @@ namespace Spline
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.MaximumSize = new System.Drawing.Size(564, 443);
+            this.tabControl1.MinimumSize = new System.Drawing.Size(564, 443);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(564, 443);
@@ -349,6 +351,9 @@ namespace Spline
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.tabControl1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximumSize = new System.Drawing.Size(897, 505);
+            this.MinimumSize = new System.Drawing.Size(897, 505);
             this.Name = "MainForm";
             this.Text = "Баланснее наближення функцій нелінійними ермітовими сплайнами";
             this.tabControl1.ResumeLayout(false);

@@ -1,4 +1,4 @@
-﻿using Spline.App.Models;
+﻿using Spline;
 using Spline.App.Utils;
 using Spline.Models;
 using System;
@@ -40,8 +40,7 @@ namespace Spline
 
         public void Compute()
         {
-            int LOG_SECTION_COUNTER = 1;
-
+         
             double zl, zp, xmid, xtemp;
             zl = a;
             zp = b;
@@ -57,7 +56,7 @@ namespace Spline
                 {
                     xtemp = (xmid + zp) / 2.0;
                     prevMu = findMu(zl, xtemp, _function);
-                    Logger.Info("Start computing Mu for Section# " + LOG_SECTION_COUNTER++, "MainForm");
+                    Logger.Info("Start computing Mu for Section# " + section.Count+1, "MainForm");
                     while (Math.Abs(Mu - prevMu) / Mu > 0.01 || prevMu > Mu)
                     {
                         if (prevMu > Mu)
@@ -72,7 +71,7 @@ namespace Spline
                         }
                         prevMu = findMu(zl, xtemp, _function);
 
-                        Logger.Info("computed Mu =  " + prevMu, "MainForm");
+                        Logger.Info("computed Mu =  " + prevMu, this.GetType().ToString());
                     }
 
                     zp = xtemp;

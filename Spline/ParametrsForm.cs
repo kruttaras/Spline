@@ -51,6 +51,5 @@ namespace Spline
         {
             this.Close();
         }
-
     }
 }

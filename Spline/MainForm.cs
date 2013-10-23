@@ -10,7 +10,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using Spline.Models;
 using Spline.App.Utils;
-using Spline.App.Models;
+using Spline;
 
 namespace Spline
 {

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Spline.Models
+namespace Spline
 {
-    class ErmitSplineUtil
+    //TODO: finish this  
+    class ApproxFunction
     {
     }
 }

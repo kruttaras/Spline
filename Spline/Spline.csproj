@@ -54,21 +54,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App\Models\ExponencialSpline.cs" />
+    <Compile Include="App\Math\SplineFunctions\ExponencialSpline.cs" />
+    <Compile Include="App\Math\SplineFunctions\Multivalue3Spline.cs" />
+    <Compile Include="App\Math\SplineFunctions\LogarifmicalSpline.cs" />
+    <Compile Include="App\Math\SplineFunctions\Multivalue4Spline.cs" />
     <Compile Include="App\Utils\Logger.cs" />
-    <Compile Include="IAproximatingFunction.cs" />
+    <Compile Include="App\Math\SplineFunctions\IAproximatingFunction.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="App\Models\ApproxFunction.cs" />
-    <Compile Include="App\Models\ComboBoxItem.cs" />
-    <Compile Include="App\Models\ErmitSplineUtil.cs" />
-    <Compile Include="App\Models\AppUtils.cs" />
-    <Compile Include="App\Models\IFunction.cs" />
-    <Compile Include="App\Models\Section.cs" />
+    <Compile Include="App\Math\SplineFunctions\ApproxFunction.cs" />
+    <Compile Include="App\Utils\ComboBoxItem.cs" />
+    <Compile Include="App\Utils\AppUtils.cs" />
+    <Compile Include="App\Math\Functions\IFunction.cs" />
+    <Compile Include="App\Math\Primitives\Section.cs" />
     <Compile Include="ParametrsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -82,8 +84,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="App\Models\AppMath.cs" />
-    <Compile Include="ZzadanPohubkou.cs" />
+    <Compile Include="App\Math\Functions\AppMath.cs" />
+    <Compile Include="App\Math\ZzadanPohubkou.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
@@ -100,7 +102,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-    <None Include="Resources\CodeCogsEqn.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
