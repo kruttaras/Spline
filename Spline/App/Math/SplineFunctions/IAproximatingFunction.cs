@@ -12,5 +12,14 @@ namespace Spline
        public abstract double[] GetCoeficients(AppMath.BaseFunc func, double x0, double x1);
 
        public abstract double GetAproximatingFunction(double x, double[] a);
+
+       protected double ln(double x)
+       {
+           return Math.Log(x);
+       }
+       protected double pow(double x, double pow)
+       {
+           return Math.Pow(x, pow);
+       }
     }
 }

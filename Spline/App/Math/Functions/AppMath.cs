@@ -119,6 +119,24 @@ namespace Spline.Models
             }
         }
 
+        public class Exp5 : BaseFunc
+        {
+            public Exp5()
+            {
+                this.Text = "Exp(x+x^2+x^3+x^4)";
+            }
+
+            public override double Val(double x)
+            {
+                return Math.Exp(x + x * x + Math.Pow(x, 3) + Math.Pow(x, 4));
+            }
+
+            public override double Diff(double x, int i = 1)
+            {
+                return (1 + 2*x + 3*x*x + 4*Math.Pow(x, 3))*Math.Exp(x + x*x + Math.Pow(x, 3) + Math.Pow(x, 4));
+            }
+        }
+
         public class Division : BaseFunc
         {
             public Division()
