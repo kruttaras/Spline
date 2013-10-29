@@ -14,7 +14,8 @@ namespace Spline
         }
         public override double[] GetCoeficients(AppMath.BaseFunc func, double x0, double x1)
         {
-            double[] a = new double[4];
+            double[] a = new double[5] { 0, 0, 0, 0, 0 };
+
             double x0_x1 = (x0 - x1);
             double LogF0_F1 = Math.Log(func.Val(x0) / func.Val(x1));
 

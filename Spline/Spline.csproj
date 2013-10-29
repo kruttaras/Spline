@@ -35,6 +35,10 @@
     <Reference Include="NCalc">
       <HintPath>..\NCalc.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Program Files\NUnit 2.6.3\bin\framework\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -56,7 +60,6 @@
   <ItemGroup>
     <Compile Include="App\Math\SplineFunctions\ExponencialSpline.cs" />
     <Compile Include="App\Math\SplineFunctions\Exponential5Spline.cs" />
-    <Compile Include="App\Math\SplineFunctions\Logarifmical4Spline.cs" />
     <Compile Include="App\Math\SplineFunctions\Multivalue3Spline.cs" />
     <Compile Include="App\Math\SplineFunctions\LogarifmicalSpline.cs" />
     <Compile Include="App\Math\SplineFunctions\Multivalue4Spline.cs" />
@@ -88,6 +91,7 @@
     </Compile>
     <Compile Include="App\Math\Functions\AppMath.cs" />
     <Compile Include="App\Math\ZzadanPohubkou.cs" />
+    <Compile Include="Tests\ExponencialSplineTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">

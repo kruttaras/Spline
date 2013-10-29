@@ -9,7 +9,7 @@ namespace Spline.Models
     {
         public abstract class BaseFunc : ComboBoxBaseItem, IFunction
         {
-            private double[] parametrs;
+            protected double[] parametrs = { 1, 1, 1, 1, 1 };
             public override string ToString()
             {
                 return Text;
@@ -110,12 +110,15 @@ namespace Spline.Models
 
             public override double Val(double x)
             {
-                return Math.Exp(x);
+                return parametrs[0] * Math.Exp(parametrs[1] * x + parametrs[2] * Math.Pow(x, 2) + parametrs[3] * Math.Pow(x, 3) + parametrs[4] * Math.Pow(x, 4));
             }
 
             public override double Diff(double x, int i = 1)
             {
-                return Math.Exp(x);
+                double[] p = parametrs;
+                double inner = p[1] + 2 * p[2] * x + 3 * p[3] * Math.Pow(x, 2) + 4 * p[4] * Math.Pow(x, 3);
+                double outer = Math.Exp(p[1] * x + p[2] * Math.Pow(x, 2) + p[3] * Math.Pow(x, 3) + p[4] * Math.Pow(x, 4));
+                return inner * outer;
             }
         }
 
