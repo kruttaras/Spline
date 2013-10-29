@@ -91,6 +91,8 @@
     </Compile>
     <Compile Include="App\Math\Functions\AppMath.cs" />
     <Compile Include="App\Math\ZzadanPohubkou.cs" />
+    <Compile Include="Tests\BaseSplineTest.cs" />
+    <Compile Include="Tests\Exponencial5SplineTest.cs" />
     <Compile Include="Tests\ExponencialSplineTest.cs" />
   </ItemGroup>
   <ItemGroup>

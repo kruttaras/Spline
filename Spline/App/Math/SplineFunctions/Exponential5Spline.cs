@@ -68,7 +68,7 @@ namespace Spline
                    (ln(f[1]/f[0]) - a[4]*(pow(x1, 4) - pow(x0, 4)) -
                     a[3]*(pow(x1, 3) - pow(x0, 3)) - a[2]*(pow(x1, 2) - pow(x0, 2)));
 
-            a[0] = f[0]*Math.Exp(-1*(a[1]*x0 + a[2]*x0*x0 + a[3]*pow(x0, 3) + a[4]*pow(x0, 4)));
+            a[0] = f[1] * Math.Exp(-1 * (a[1] * x1 + a[2] * x1 * x1 + a[3] * pow(x1, 3) + a[4] * pow(x1, 4)));
 
             if (alpha3 != beta3*a[4] + dzeta3*a[3] + gamma3*a[2])
             {
