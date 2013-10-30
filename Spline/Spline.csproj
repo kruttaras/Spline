@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="App\Math\SplineFunctions\ExponencialSpline.cs" />
     <Compile Include="App\Math\SplineFunctions\Exponential5Spline.cs" />
+    <Compile Include="App\Math\SplineFunctions\Logarifmical5Spline.cs" />
     <Compile Include="App\Math\SplineFunctions\Multivalue3Spline.cs" />
     <Compile Include="App\Math\SplineFunctions\LogarifmicalSpline.cs" />
     <Compile Include="App\Math\SplineFunctions\Multivalue4Spline.cs" />

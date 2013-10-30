@@ -19,8 +19,8 @@ namespace Spline.Tests
             {
                 if (expected[i] != actual[i])
                 {
-                    Assert.True(expected[i] - eps < actual[i] && actual[i] < expected[i] + eps, "expected  {0} but was {1} .index = {2}\n {3}", expected.ToString(), actual.ToString(), i);
-                    Console.WriteLine("expected {0} and actual {1} in index {2}", expected.ToString(), actual.ToString(), i);
+                    Assert.True(expected[i] - eps < actual[i] && actual[i] < expected[i] + eps, "expected  {0} but was {1} .index = {2}",Stringify(expected),Stringify(actual), i);
+                    Console.WriteLine("expected {0} and actual {1} in index {2}", Stringify(expected), Stringify(actual), i);
                 }
                 else
                 {
@@ -34,5 +34,17 @@ namespace Spline.Tests
             AssertThatCoeficientsMatches(expected, actual, INFLECITY);
         }
 
+        protected String Stringify(double[] x)
+        {
+            string str = "[ ";
+            for (int index = 0; index < x.Length-1; index++)
+            {
+                str += x[index];
+                str += "; ";
+            }
+            str += x[x.Length - 1];
+            str += " ]";
+            return str;
+        }
     }
 }
