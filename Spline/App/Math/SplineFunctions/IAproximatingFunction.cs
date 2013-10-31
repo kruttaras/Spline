@@ -21,5 +21,10 @@ namespace Spline
        {
            return Math.Pow(x, pow);
        }
+
+       protected double exp(double x)
+       {
+           return Math.Exp(x);
+       }
     }
 }

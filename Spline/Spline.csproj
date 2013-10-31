@@ -95,6 +95,7 @@
     <Compile Include="Tests\BaseSplineTest.cs" />
     <Compile Include="Tests\Exponencial5SplineTest.cs" />
     <Compile Include="Tests\ExponencialSplineTest.cs" />
+    <Compile Include="Tests\Logarifmical5SplineTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">

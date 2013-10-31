@@ -60,7 +60,6 @@ namespace Spline.Models
                         break;
                     default:
                         throw new Exception();
-                        break;
                 }
             }
         }
@@ -76,11 +75,13 @@ namespace Spline.Models
 
             public override double Val(double x)
             {
-                return Math.Log(x);
+                double[] p = parametrs;
+                return Math.Log(p[4] * Math.Pow(x, 4) + p[3] * Math.Pow(x, 3) + p[2] * Math.Pow(x, 2) + p[1] * x + p[0]);
             }
 
             public override double Diff(double x, int i = 1)
             {
+                double[] p = parametrs;
                 if (x == 0)
                 {
                     throw new Exception();
@@ -88,7 +89,7 @@ namespace Spline.Models
                 switch (i)
                 {
                     case 1:
-                        return (1 / x);
+                        return (4 * p[4] * x * x * x + 3 * p[3] * x * x + 2 * p[2] * x + p[1]) / (p[4] * Math.Pow(x, 4) + p[3] * Math.Pow(x, 3) + p[2] * Math.Pow(x, 2)+p[1]*x+p[0]);
                         break;
                     case 2:
                         return (-1 / Math.Pow(x, 2));

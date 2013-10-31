@@ -11,16 +11,16 @@ namespace Spline.Tests
     [TestFixture]
     public abstract class BaseSplineTest
     {
-        protected const double INFLECITY = 1E-8;
+        protected const double Inflecity = 1E-8;
 
         protected void AssertThatCoeficientsMatches(double[] expected, double[] actual, double eps)
         {
             for (int i = 0; i <expected.Length; i++)
             {
-                if (expected[i] != actual[i])
+                if (!Equals(expected[i], actual[i]))
                 {
                     Assert.True(expected[i] - eps < actual[i] && actual[i] < expected[i] + eps, "expected  {0} but was {1} .index = {2}",Stringify(expected),Stringify(actual), i);
-                    Console.WriteLine("expected {0} and actual {1} in index {2}", Stringify(expected), Stringify(actual), i);
+                    Console.WriteLine(@"expected {0} and actual {1} in index {2}", Stringify(expected), Stringify(actual), i);
                 }
                 else
                 {
@@ -31,7 +31,7 @@ namespace Spline.Tests
 
         protected void AssertThatCoeficientsMatches(double[] expected, double[] actual)
         {
-            AssertThatCoeficientsMatches(expected, actual, INFLECITY);
+            AssertThatCoeficientsMatches(expected, actual, Inflecity);
         }
 
         protected String Stringify(double[] x)
