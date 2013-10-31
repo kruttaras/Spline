@@ -58,25 +58,25 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App\Math\SplineFunctions\ExponencialSpline.cs" />
-    <Compile Include="App\Math\SplineFunctions\Exponential5Spline.cs" />
-    <Compile Include="App\Math\SplineFunctions\Logarifmical5Spline.cs" />
-    <Compile Include="App\Math\SplineFunctions\Multivalue3Spline.cs" />
-    <Compile Include="App\Math\SplineFunctions\LogarifmicalSpline.cs" />
-    <Compile Include="App\Math\SplineFunctions\Multivalue4Spline.cs" />
-    <Compile Include="App\Utils\Logger.cs" />
-    <Compile Include="App\Math\SplineFunctions\IAproximatingFunction.cs" />
+    <Compile Include="src\app\Math\SplineFunctions\ExponencialSpline.cs" />
+    <Compile Include="src\app\Math\SplineFunctions\Exponential5Spline.cs" />
+    <Compile Include="src\app\Math\SplineFunctions\Logarifmical5Spline.cs" />
+    <Compile Include="src\app\Math\SplineFunctions\Multivalue3Spline.cs" />
+    <Compile Include="src\app\Math\SplineFunctions\LogarifmicalSpline.cs" />
+    <Compile Include="src\app\Math\SplineFunctions\Multivalue4Spline.cs" />
+    <Compile Include="src\app\Utils\Logger.cs" />
+    <Compile Include="src\app\Math\SplineFunctions\IAproximatingFunction.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="App\Math\SplineFunctions\ApproxFunction.cs" />
-    <Compile Include="App\Utils\ComboBoxItem.cs" />
-    <Compile Include="App\Utils\AppUtils.cs" />
-    <Compile Include="App\Math\Functions\IFunction.cs" />
-    <Compile Include="App\Math\Primitives\Section.cs" />
+    <Compile Include="src\app\Math\SplineFunctions\ApproxFunction.cs" />
+    <Compile Include="src\app\Utils\ComboBoxItem.cs" />
+    <Compile Include="src\app\Utils\AppUtils.cs" />
+    <Compile Include="src\app\Math\Functions\IFunction.cs" />
+    <Compile Include="src\app\Math\Primitives\Section.cs" />
     <Compile Include="ParametrsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,12 +90,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="App\Math\Functions\AppMath.cs" />
-    <Compile Include="App\Math\ZzadanPohubkou.cs" />
-    <Compile Include="Tests\BaseSplineTest.cs" />
-    <Compile Include="Tests\Exponencial5SplineTest.cs" />
-    <Compile Include="Tests\ExponencialSplineTest.cs" />
-    <Compile Include="Tests\Logarifmical5SplineTest.cs" />
+    <Compile Include="src\app\Math\Functions\AppMath.cs" />
+    <Compile Include="src\app\Math\ZzadanPohubkou.cs" />
+    <Compile Include="src\tests\BaseSplineTest.cs" />
+    <Compile Include="src\tests\Exponencial5SplineTest.cs" />
+    <Compile Include="src\tests\ExponencialSplineTest.cs" />
+    <Compile Include="src\tests\Logarifmical5SplineTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
