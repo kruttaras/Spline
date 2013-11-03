@@ -99,23 +99,22 @@ namespace Spline
                         }
 
                     }
-                    bool fits=false;
-                    if((Mu - result.Section[K - 1].Mu) / Mu > 0.01)
+                    if (K < R || (R == K && (Mu - result.Section[K - 1].Mu) / Mu > 0.01))
                     {
-                        fits = true;
-                    }
-                    if (K < R || R == K && fits)
-                    {
-                        K = -1;
                         muPlus = Mu;
-                        if (muMinus != 0)
-                        {
-                            Mu = (Mu + muMinus) / 2.0;
-                        }
-                        else
-                        {
-                            Mu *= 0.9;
-                        }
+
+                       if (muMinus != 0)
+                            {
+                                Logger.Info("Start computing Mu in zadana k-t lanok # Mu=" + Mu + "and muMinus=" + muMinus, "Spline");
+                                Mu = (Mu + muMinus) / 2.0d;
+                                Logger.Info("Result # Mu=" + Mu, "Spline");
+                            }
+                            else
+                            {
+                                Mu *= 0.9;
+                            }
+                        
+                        K = -1;
                     }
 
                 } while (R != K);
