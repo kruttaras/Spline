@@ -21,7 +21,7 @@ namespace Spline
     {
         private Expression expression;
         private double Mu=0.005;
-        double R;
+        int R;
         private AppMath.BaseFunc Function;
         private IList<Section> section=new List<Section>();
         public MainForm()
@@ -73,7 +73,7 @@ namespace Spline
                 PointPairList list_1 = new PointPairList();
                 PointPairList aprox = new PointPairList();
            
-            ZzadanPohubkou result ;
+            List<Section> result ;
 
             if (radioButton4.Checked)
             {
@@ -82,15 +82,19 @@ namespace Spline
 
                 do
                 {
-                    result = new ZzadanPohubkou(xmin, xmax, Function, aproxFunction, Mu);
-                    result.Compute();
-                    K = result.Section.Count;
+                    section = ZzadanPohubkou.Compute(xmin, xmax, Function, aproxFunction, Mu);
+                    K = section.Count;
                     if (K > R)
                     {
                         muMinus = Mu;
                         if (muPlus != 0)
                         {
-                            Mu = (Mu + muPlus) / 2.0;
+                            Mu = (Mu + muPlus) / 2;
+
+                            if (Equals(Mu, muMinus))
+                            {
+                                K = R;
+                            }
 
                         }
                         else
@@ -99,33 +103,39 @@ namespace Spline
                         }
 
                     }
-                    if (K < R || (R == K && (Mu - result.Section[K - 1].Mu) / Mu > 0.01))
+                    if (K < R || (R == K && (Mu - section[K - 1].Mu) / Mu > 0.01))
                     {
                         muPlus = Mu;
-
+                        K = -1;
                        if (muMinus != 0)
                             {
                                 Logger.Info("Start computing Mu in zadana k-t lanok # Mu=" + Mu + "and muMinus=" + muMinus, "Spline");
                                 Mu = (Mu + muMinus) / 2.0d;
                                 Logger.Info("Result # Mu=" + Mu, "Spline");
+
+                                if (Equals(Mu, muPlus))
+                                {
+                                    K = R;
+                                }
+
                             }
                             else
                             {
                                 Mu *= 0.9;
                             }
                         
-                        K = -1;
+                        
                     }
 
                 } while (R != K);
             }
             else
             {
-                result = new ZzadanPohubkou(xmin, xmax, Function, aproxFunction, Mu);
-                result.Compute();
+                section = ZzadanPohubkou.Compute(xmin, xmax, Function, aproxFunction, Mu);
+                
             }
-                section = result.Section;
-
+            richTextBox1.Text += "Ланок побудовано: " + section.Count +"\n";
+            richTextBox1.Text += "_______________________________________________\n";
                     for (int i = 0; i < section.Count; i++)
                     {
                         for (double x = section[i].LeftPoint; x <= section[i].RightPoint; x += 0.001)

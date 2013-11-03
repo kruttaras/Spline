@@ -7,7 +7,7 @@ namespace Spline
     {
         public Multivalue4Spline()
         {
-            Text = "Многочлен 4 порядку";
+            Text = "a0+a1*x+a2*x^2+a3*x^3+a4*x^4";
         }
 
         public override double[] GetCoeficients(AppMath.BaseFunc func, double x0, double x1)

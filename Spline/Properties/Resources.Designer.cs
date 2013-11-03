@@ -70,7 +70,7 @@ namespace Spline.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to F( x ).
+        ///   Looks up a localized string similar to f( x ).
         /// </summary>
         internal static string ChartFunctionName {
             get {

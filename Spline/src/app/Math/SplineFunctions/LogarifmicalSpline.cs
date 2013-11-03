@@ -7,7 +7,7 @@ namespace Spline
     {
         public LogarifmicalSpline()
         {
-            Text = "Логарифмічна";
+            Text = "ln(a0+a1*x+a2*x^2+a3*x^3)";
         }
 
         public override double[] GetCoeficients(AppMath.BaseFunc func, double x0, double x1)

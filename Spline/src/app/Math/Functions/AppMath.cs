@@ -70,7 +70,7 @@ namespace Spline.Models
 
             public Ln()
             {
-                this.Text = "Ln(x)";
+                this.Text = "Ln(1+x+x^2+x^3+x^4)";
             }
 
             public override double Val(double x)
@@ -106,7 +106,7 @@ namespace Spline.Models
         {
             public Exp()
             {
-                this.Text = "Exp(x)";
+                this.Text = "Exp(x+x^2+x^3+x^4)";
             }
 
             public override double Val(double x)
@@ -123,7 +123,7 @@ namespace Spline.Models
             }
         }
 
-        public class Exp5 : BaseFunc
+ /*       public class Exp5 : BaseFunc
         {
             public Exp5()
             {
@@ -139,7 +139,7 @@ namespace Spline.Models
             {
                 return (1 + 2*x + 3*x*x + 4*Math.Pow(x, 3))*Math.Exp(x + x*x + Math.Pow(x, 3) + Math.Pow(x, 4));
             }
-        }
+        }*/
 
         public class Division : BaseFunc
         {
@@ -205,7 +205,7 @@ namespace Spline.Models
         {
             public Polinom3()
             {
-                this.Text = "A+B*x+C*x^2+D*x^3";
+                this.Text = "1+x+x^2+x^3";
             }
             public override int GetNumberOfParametrs()
             {

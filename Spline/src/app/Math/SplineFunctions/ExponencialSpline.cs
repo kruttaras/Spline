@@ -10,7 +10,7 @@ namespace Spline
     {
         public ExponencialSpline()
         {
-            Text = "Експоненціальна";
+            Text = "a0*exp(a1*x+a2*x^2+a3*x^3)";
         }
         public override double[] GetCoeficients(AppMath.BaseFunc func, double x0, double x1)
         {
