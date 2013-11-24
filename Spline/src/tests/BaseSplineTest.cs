@@ -11,7 +11,7 @@ namespace Spline.Tests
     [TestFixture]
     public abstract class BaseSplineTest
     {
-        protected const double Inflecity = 1E-8;
+        protected const double Tolerance = 1E-8;
 
         protected void AssertThatCoeficientsMatches(double[] expected, double[] actual, double eps)
         {
@@ -31,7 +31,7 @@ namespace Spline.Tests
 
         protected void AssertThatCoeficientsMatches(double[] expected, double[] actual)
         {
-            AssertThatCoeficientsMatches(expected, actual, Inflecity);
+            AssertThatCoeficientsMatches(expected, actual, Tolerance);
         }
 
         protected String Stringify(double[] x)

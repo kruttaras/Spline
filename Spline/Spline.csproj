@@ -39,6 +39,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\Program Files\NUnit 2.6.3\bin\framework\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="ProgressControls">
+      <HintPath>..\..\..\Users\Taras\Desktop\ProgressIndicator\ProgressIndicator\bin\Debug\ProgressControls.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -58,6 +61,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\app\Math\ApproximationAlgorithms\ApproximationAlgorithm.cs" />
+    <Compile Include="src\app\Math\ApproximationAlgorithms\ApproximationWithGivenNumberOfSections.cs" />
     <Compile Include="src\app\Math\SplineFunctions\ExponencialSpline.cs" />
     <Compile Include="src\app\Math\SplineFunctions\Exponential5Spline.cs" />
     <Compile Include="src\app\Math\SplineFunctions\Logarifmical5Spline.cs" />
@@ -91,7 +96,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="src\app\Math\Functions\AppMath.cs" />
-    <Compile Include="src\app\Math\ZzadanPohubkou.cs" />
+    <Compile Include="src\app\Math\ApproximationAlgorithms\ApproximationWithGivenObservationalError.cs" />
     <Compile Include="src\tests\BaseSplineTest.cs" />
     <Compile Include="src\tests\Exponencial5SplineTest.cs" />
     <Compile Include="src\tests\ExponencialSplineTest.cs" />
@@ -111,7 +116,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

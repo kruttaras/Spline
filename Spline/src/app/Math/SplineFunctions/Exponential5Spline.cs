@@ -36,7 +36,6 @@ namespace Spline
 
             alpha1 = alpha - ln(f[2]/f[0])/x2_x0;
             beta1 = (x1 + x0) * (x1 * x1 + x0 * x0) - (x2 + x0) * (x2 * x2 + x0 * x0);
-          //  dzeta1 = pow(x1, 3) - pow(x2, 3) + x0 * x1 * (x0 + x1) - x0 * x2 * (x0 + x2);
             dzeta1 = pow(x1, 2) + x1*x0 - pow(x2, 2) - x2*x0;
             gamma1 = x1 - x2;
 

@@ -40,8 +40,8 @@ namespace Spline
             beta2 = p * diffOf(2, 1, x, 2) / (x2_x1) - diffOf(2, 1, x, 3) / (x2_x1) - 2 * q * x2 + 3 * x2 * x2;
 
             double miu1, miu2;
-            miu1 = q * diffOf(1, 0, x, 2)/x1_x0 - diffOf(1, 0, x, 4)/x1_x0 - 2*q*x0 + 4*Math.Pow(x0, 3);
-            miu2 = q * diffOf(2, 1, x, 2) / x2_x1 - diffOf(2, 1, x, 4) / x2_x1 - 2 * q * x2 + 4 * Math.Pow(x2, 3);
+            miu1 = q * diffOf(1, 0, x, 2)/x1_x0 - diffOf(1, 0, x, 4)/x1_x0 - 2*q*x0 + (double) (4*Math.Pow((double) x0, 3));
+            miu2 = q * diffOf(2, 1, x, 2) / x2_x1 - diffOf(2, 1, x, 4) / x2_x1 - 2 * q * x2 + (double) (4 * Math.Pow((double) x2, 3));
 
             a[4] = (beta1*alpha2 - beta2*alpha1)/(beta1*miu2 - beta2*miu1);
             a[3] = (alpha1-miu1*a[4])/beta1;
@@ -59,7 +59,7 @@ namespace Spline
 
         private double diffOf(int first, int second, double[] mass, int pow = 1)
         {
-            return Math.Pow(mass[first], pow) - Math.Pow(mass[second], pow);
+            return (double) (Math.Pow((double) mass[first], pow) - Math.Pow((double) mass[second], pow));
         }
     }
 }

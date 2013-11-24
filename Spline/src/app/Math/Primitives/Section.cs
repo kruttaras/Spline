@@ -7,7 +7,7 @@ using System.Text;
 namespace Spline.Models
 {
     //section of aproximation 
-    class Section
+    public class Section
     {
         public double LeftPoint;
         public double RightPoint;

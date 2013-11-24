@@ -1,4 +1,6 @@
 ﻿using System.Drawing.Drawing2D;
+using System.Threading;
+using System.Threading.Tasks;
 using NCalc;
 using Spline.Properties;
 using ZedGraph;
@@ -24,32 +26,45 @@ namespace Spline
         int R;
         private AppMath.BaseFunc Function;
         private IList<Section> section=new List<Section>();
+
+        delegate void SetTextCallback(string text);
+
+        delegate void BehaviourCallback();
+
         public MainForm()
         {
          
             InitializeComponent();
-
             comboBox1.Items.AddRange(AppUtils.GetComboboxItemsWithFunctions());
             comboBox2.Items.AddRange(AppUtils.GetComboboxItemsWithAproximatingFunctions());
             comboBox1.SelectedIndex = 0;
             comboBox2.SelectedIndex = 0;
-            GraphPane pane = zedGraphControl1.GraphPane;
-            pane.Title.Text = Resources.FunctionChartTitle;
-            GraphPane pane2 = zedGraphControl2.GraphPane;
-            pane2.Title.Text = Resources.SplineChartTitle;
+            GraphPane functionAndItsAproximationChart = zedGraphControl1.GraphPane;
+            functionAndItsAproximationChart.Title.Text = Resources.FunctionChartTitle;
+
+            GraphPane observationalErrorChart = zedGraphControl2.GraphPane;
+            observationalErrorChart.Title.Text = Resources.SplineChartTitle;
+            progressIndicator1.CircleSize = 0.7f;
+            progressIndicator1.NumberOfCircles = 10;
+            progressIndicator1.Start();
+
+           progressIndicator1.Hide();
+           progressIndicator1.BackColor = Color.Transparent; 
             
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
             section = new List<Section>();
           
             Function = ((ComboBoxItem)comboBox1.SelectedItem).GetFunction();
             AproximatingFunction aproxFunction = ((ComboBoxItem)comboBox2.SelectedItem).GetAproximatingFunction();
-
+            
             double xmin = Convert.ToDouble(textBox5.Text);
             double xmax = Convert.ToDouble(textBox6.Text);
             Mu = Convert.ToDouble(textBox7.Text);
+
             if (radioButton4.Checked)
             {
                 R = Convert.ToInt32(textBox1.Text);
@@ -72,149 +87,119 @@ namespace Spline
 
                 PointPairList list_1 = new PointPairList();
                 PointPairList aprox = new PointPairList();
-           
-            List<Section> result ;
 
+            var tf = new TaskFactory(
+                TaskCreationOptions.AttachedToParent,
+                TaskContinuationOptions.AttachedToParent);
+
+
+            ShowProgresIndicator();
+            Task<List<Section>> aproximation;
             if (radioButton4.Checked)
             {
-                double muPlus = 0, muMinus = 0;
-                int K;
-
-                do
-                {
-                    section = ZzadanPohubkou.Compute(xmin, xmax, Function, aproxFunction, Mu);
-                    K = section.Count;
-                    if (K > R)
-                    {
-                        muMinus = Mu;
-                        if (muPlus != 0)
-                        {
-                            Mu = (Mu + muPlus) / 2;
-
-                            if (Equals(Mu, muMinus))
-                            {
-                                K = R;
-                            }
-
-                        }
-                        else
-                        {
-                            Mu *= 1.1;
-                        }
-
-                    }
-                    if (K < R || (R == K && (Mu - section[K - 1].Mu) / Mu > 0.01))
-                    {
-                        muPlus = Mu;
-                        K = -1;
-                       if (muMinus != 0)
-                            {
-                                Logger.Info("Start computing Mu in zadana k-t lanok # Mu=" + Mu + "and muMinus=" + muMinus, "Spline");
-                                Mu = (Mu + muMinus) / 2.0d;
-                                Logger.Info("Result # Mu=" + Mu, "Spline");
-
-                                if (Equals(Mu, muPlus))
-                                {
-                                    K = R;
-                                }
-
-                            }
-                            else
-                            {
-                                Mu *= 0.9;
-                            }
-                        
-                        
-                    }
-
-                } while (R != K);
+                aproximation = tf.StartNew(() => ApproximationWithGivenNumberOfSections.Instance.Compute(xmin, xmax, Function, aproxFunction, Mu, R));
             }
             else
             {
-                section = ZzadanPohubkou.Compute(xmin, xmax, Function, aproxFunction, Mu);
+                aproximation = tf.StartNew(() => ApproximationWithGivenObservationalError.Instance.Compute(xmin, xmax, Function, aproxFunction, Mu));
                 
             }
-            richTextBox1.Text += "Ланок побудовано: " + section.Count +"\n";
-            richTextBox1.Text += "_______________________________________________\n";
-                    for (int i = 0; i < section.Count; i++)
-                    {
-                        for (double x = section[i].LeftPoint; x <= section[i].RightPoint; x += 0.001)
-                        {
+            
+            Task<string> outputResultTask = tf.ContinueWhenAll(new Task[] {aproximation},
+                    tasks => GetValue(aproxFunction, aprox, pane, list, list_1, pane2, xmin, xmax, aproximation.Result));
 
-                            double fx = aproxFunction.GetAproximatingFunction(x, section[i].Coef);
+            tf.ContinueWhenAll(new Task[] { outputResultTask }, tasks => HideProgresIndicator());
 
-                            aprox.Add(x, fx);
 
-                        }
 
-                        richTextBox1.Text += "Ланка # " + (i + 1) + "\nxL= " + section[i].LeftPoint
-                            +"\nxR= " + section[i].RightPoint + "\nMu= "
-                            + section[i].Mu + "\n\n" + "Коефіцієнти\n";
-                        for (int ii = 0; ii < section[i].Coef.Length; ii++)
-                        {
-                            richTextBox1.Text += "a["+ii+"]= "+section[i].Coef[ii]+"\n";
+        }
 
-                        }
-                        richTextBox1.Text += Resources.Separetor+"\n";
-
-                    }
-
-                 
-                LineItem myCurve = pane.AddCurve(Resources.ChartFunctionName, list, Color.Blue, SymbolType.None);
-                LineItem myCurve2 = pane.AddCurve(Resources.ChartSplineName, aprox, Color.Red, SymbolType.None);
-          
-                pane.XAxis.MajorGrid.IsVisible = true;
-                pane.YAxis.MajorGrid.IsVisible = true;
-         
-                zedGraphControl1.AxisChange();
-
-               
-                zedGraphControl1.Invalidate();
-                list_1.Clear();
-
-                Logger.Info("Mu  function max value of each section for function " + Function.ToString(), "MainForm");
-                int LogCounter = 1;
-                foreach (Section sec in section)
+        private string GetValue(AproximatingFunction aproxFunction, PointPairList aprox, GraphPane pane, PointPairList list,
+            PointPairList list_1, GraphPane pane2, double xmin, double xmax, List<Section> section1 )
+        {
+            String str = "";
+            section = section1;
+            str += "Ланок побудовано: " + section.Count + "\n";
+            str += "_______________________________________________\n";
+            for (int i = 0; i < section.Count; i++)
+            {
+                for (double x = section[i].LeftPoint; x <= section[i].RightPoint; x += 0.001)
                 {
+                    double fx = aproxFunction.GetAproximatingFunction(x, section[i].Coef);
 
-                    double[] coef = sec.Coef;
-                    double max = 0;
-                    for (double x = sec.LeftPoint; x <= sec.RightPoint; x += 0.001)
-                    {
-
-                        double fx = Math.Abs(Function.Val(x) - aproxFunction.GetAproximatingFunction(x, coef));
-                        if (fx > max) max = fx;
-                        list_1.Add(x, fx);
-
-                    }
-                    Logger.Info("Section#" + LogCounter++ + "Max value = " + max, "MainForm");
+                    aprox.Add(x, fx);
                 }
 
-                LineItem newCurves = pane2.AddCurve("Ro", list_1, Color.Blue, SymbolType.None);
-                list_1 = new PointPairList();
-          /*      for (double i = xmin; i < xmax; i+=Math.Abs(xmax - xmin)/20)
+                str += "Ланка # " + (i + 1) + "\nxL= " + section[i].LeftPoint
+                                     + "\nxR= " + section[i].RightPoint + "\nMu= "
+                                     + section[i].Mu + "\n\n" + "Коефіцієнти\n";
+                for (int ii = 0; ii < section[i].Coef.Length; ii++)
+                {
+                    str += "a[" + ii + "]= " + section[i].Coef[ii] + "\n";
+                }
+                str += Resources.Separetor + "\n";
+            }
+
+
+            LineItem myCurve = pane.AddCurve(Resources.ChartFunctionName, list, Color.Blue, SymbolType.None);
+            LineItem myCurve2 = pane.AddCurve(Resources.ChartSplineName, aprox, Color.Red, SymbolType.None);
+
+            pane.XAxis.MajorGrid.IsVisible = true;
+            pane.YAxis.MajorGrid.IsVisible = true;
+
+            zedGraphControl1.AxisChange();
+
+
+            zedGraphControl1.Invalidate();
+            list_1.Clear();
+
+            Logger.Info("Mu  function max value of each section for function " + Function.ToString(), "MainForm");
+            int LogCounter = 1;
+            double max = 0;
+            foreach (Section sec in section)
             {
-                list_1.Add(i, Mu);   
-            }*/
-                list_1.Add(xmin,Mu);
-                list_1.Add(xmax,Mu);
-                newCurves = pane2.AddCurve("Mu", list_1, Color.Red);
-            newCurves.Line.Style =DashStyle.Custom;
+                double[] coef = sec.Coef;
+                
+                for (double x = sec.LeftPoint; x <= sec.RightPoint; x += 0.001)
+                {
+                    double fx = Math.Abs(Function.Val(x) - aproxFunction.GetAproximatingFunction(x, coef));
+                    if (fx > max) max = fx;
+                    list_1.Add(x, fx);
+                }
+                Logger.Info("Section#" + LogCounter++ + "Max value = " + max, "MainForm");
+            }
+
+            LineItem newCurves = pane2.AddCurve("Ro", list_1, Color.Blue, SymbolType.None);
+            list_1 = new PointPairList();
+            if (radioButton4.Checked)
+            {
+                Mu = max;
+            }
+            
+            list_1.Add(xmin, Mu);
+            list_1.Add(xmax, Mu);
+                
+            
+            
+            newCurves = pane2.AddCurve("Mu", list_1, Color.Red);
+            newCurves.Line.Style = DashStyle.Custom;
             newCurves.Line.Width = 2;
             newCurves.Line.DashOn = 5;
             newCurves.Line.DashOff = 8;
             newCurves.Symbol.Size = 0;
-      
-                pane2.XAxis.MajorGrid.IsVisible = true;
-                pane2.YAxis.MajorGrid.IsVisible = true;
-                pane2.YAxis.Scale.Max = 2 * Mu;
-                pane2.YAxis.Scale.Min = 0;
-                pane2.XAxis.Scale.Max = xmax;
-                pane2.XAxis.Scale.Min = xmin;
-    
-                zedGraphControl2.AxisChange();
 
-                zedGraphControl2.Invalidate();
+            pane2.XAxis.MajorGrid.IsVisible = true;
+            pane2.YAxis.MajorGrid.IsVisible = true;
+            pane2.YAxis.Scale.Max = 2*Mu;
+            pane2.YAxis.Scale.Min = 0;
+            pane2.XAxis.Scale.Max = xmax;
+            pane2.XAxis.Scale.Min = xmin;
+
+            zedGraphControl2.AxisChange();
+
+            zedGraphControl2.Invalidate();
+            AddText(str);
+            return str;
         }
 
         private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
@@ -245,18 +230,41 @@ namespace Spline
                 label1.ForeColor = System.Drawing.Color.Black;
             }
         }
-
-        private void comboBox2_VisibleChanged(object sender, EventArgs e)
+        private void AddText(string text)
         {
-         
+
+            if (this.richTextBox1.InvokeRequired)
+            {
+                var d = new SetTextCallback(AddText);
+                this.Invoke(d, new object[] { text });
+            }
+            else
+            {
+                this.richTextBox1.Text += text;
+            }
         }
 
-        private void comboBox2_SelectedValueChanged(object sender, EventArgs e)
+        private void HideProgresIndicator()
         {
+            if (this.richTextBox1.InvokeRequired)
+            {
+                var d = new BehaviourCallback(HideProgresIndicator);
+                this.Invoke(d);
+            }
+            else
+            {
+                progressIndicator1.Stop();
+                progressIndicator1.Hide();
+            }
            
         }
 
-
+        private void ShowProgresIndicator()
+        {
+            progressIndicator1.Show();
+            progressIndicator1.Start(); 
+           
+        }
        
     }
 }

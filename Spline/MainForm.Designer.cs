@@ -42,6 +42,7 @@ namespace Spline
             this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.progressIndicator1 = new ProgressControls.ProgressIndicator();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.zedGraphControl2 = new ZedGraph.ZedGraphControl();
@@ -91,6 +92,7 @@ namespace Spline
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.progressIndicator1);
             this.tabPage1.Controls.Add(this.zedGraphControl1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
@@ -100,9 +102,19 @@ namespace Spline
             this.tabPage1.Text = "Графік ф-ції";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // progressIndicator1
+            // 
+            this.progressIndicator1.ForeColor = System.Drawing.Color.Transparent;
+            this.progressIndicator1.Location = new System.Drawing.Point(159, 62);
+            this.progressIndicator1.Name = "progressIndicator1";
+            this.progressIndicator1.Percentage = 0F;
+            this.progressIndicator1.Size = new System.Drawing.Size(255, 255);
+            this.progressIndicator1.TabIndex = 1;
+            this.progressIndicator1.Text = "progressIndicator1";
+            // 
             // zedGraphControl1
             // 
-            this.zedGraphControl1.Location = new System.Drawing.Point(6, 6);
+            this.zedGraphControl1.Location = new System.Drawing.Point(6, 3);
             this.zedGraphControl1.Name = "zedGraphControl1";
             this.zedGraphControl1.ScrollGrace = 0D;
             this.zedGraphControl1.ScrollMaxX = 0D;
@@ -162,9 +174,9 @@ namespace Spline
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(727, 423);
+            this.button1.Location = new System.Drawing.Point(744, 423);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(142, 32);
+            this.button1.Size = new System.Drawing.Size(125, 32);
             this.button1.TabIndex = 2;
             this.button1.Text = "Обчислити";
             this.button1.UseVisualStyleBackColor = true;
@@ -261,8 +273,6 @@ namespace Spline
             this.comboBox2.Name = "comboBox2";
             this.comboBox2.Size = new System.Drawing.Size(243, 26);
             this.comboBox2.TabIndex = 24;
-            this.comboBox2.SelectedValueChanged += new System.EventHandler(this.comboBox2_SelectedValueChanged);
-            this.comboBox2.VisibleChanged += new System.EventHandler(this.comboBox2_VisibleChanged);
             // 
             // textBox1
             // 
@@ -396,5 +406,6 @@ namespace Spline
         private System.Windows.Forms.RadioButton radioButton4;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.GroupBox groupBox5;
+        private ProgressControls.ProgressIndicator progressIndicator1;
 	}
 }
