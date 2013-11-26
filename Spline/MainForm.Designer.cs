@@ -45,8 +45,10 @@ namespace Spline
             this.progressIndicator1 = new ProgressControls.ProgressIndicator();
             this.zedGraphControl1 = new ZedGraph.ZedGraphControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.progressIndicator2 = new ProgressControls.ProgressIndicator();
             this.zedGraphControl2 = new ZedGraph.ZedGraphControl();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.progressIndicator3 = new ProgressControls.ProgressIndicator();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
@@ -104,11 +106,10 @@ namespace Spline
             // 
             // progressIndicator1
             // 
-            this.progressIndicator1.ForeColor = System.Drawing.Color.Transparent;
-            this.progressIndicator1.Location = new System.Drawing.Point(159, 62);
+            this.progressIndicator1.Location = new System.Drawing.Point(244, 133);
             this.progressIndicator1.Name = "progressIndicator1";
             this.progressIndicator1.Percentage = 0F;
-            this.progressIndicator1.Size = new System.Drawing.Size(255, 255);
+            this.progressIndicator1.Size = new System.Drawing.Size(90, 90);
             this.progressIndicator1.TabIndex = 1;
             this.progressIndicator1.Text = "progressIndicator1";
             // 
@@ -128,6 +129,7 @@ namespace Spline
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.progressIndicator2);
             this.tabPage2.Controls.Add(this.zedGraphControl2);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
@@ -136,6 +138,15 @@ namespace Spline
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Графік ф-ції похибки";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // progressIndicator2
+            // 
+            this.progressIndicator2.Location = new System.Drawing.Point(241, 132);
+            this.progressIndicator2.Name = "progressIndicator2";
+            this.progressIndicator2.Percentage = 0F;
+            this.progressIndicator2.Size = new System.Drawing.Size(90, 90);
+            this.progressIndicator2.TabIndex = 2;
+            this.progressIndicator2.Text = "progressIndicator2";
             // 
             // zedGraphControl2
             // 
@@ -153,6 +164,7 @@ namespace Spline
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.progressIndicator3);
             this.tabPage3.Controls.Add(this.richTextBox1);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
@@ -161,6 +173,15 @@ namespace Spline
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Результати";
             this.tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // progressIndicator3
+            // 
+            this.progressIndicator3.Location = new System.Drawing.Point(214, 128);
+            this.progressIndicator3.Name = "progressIndicator3";
+            this.progressIndicator3.Percentage = 0F;
+            this.progressIndicator3.Size = new System.Drawing.Size(90, 90);
+            this.progressIndicator3.TabIndex = 1;
+            this.progressIndicator3.Text = "progressIndicator3";
             // 
             // richTextBox1
             // 
@@ -406,6 +427,8 @@ namespace Spline
         private System.Windows.Forms.RadioButton radioButton4;
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.GroupBox groupBox5;
+        private ProgressControls.ProgressIndicator progressIndicator2;
+        private ProgressControls.ProgressIndicator progressIndicator3;
         private ProgressControls.ProgressIndicator progressIndicator1;
 	}
 }

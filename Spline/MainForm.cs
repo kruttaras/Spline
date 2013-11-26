@@ -37,17 +37,19 @@ namespace Spline
             InitializeComponent();
             comboBox1.Items.AddRange(AppUtils.GetComboboxItemsWithFunctions());
             comboBox2.Items.AddRange(AppUtils.GetComboboxItemsWithAproximatingFunctions());
+
             comboBox1.SelectedIndex = 0;
             comboBox2.SelectedIndex = 0;
+
             GraphPane functionAndItsAproximationChart = zedGraphControl1.GraphPane;
             functionAndItsAproximationChart.Title.Text = Resources.FunctionChartTitle;
 
             GraphPane observationalErrorChart = zedGraphControl2.GraphPane;
             observationalErrorChart.Title.Text = Resources.SplineChartTitle;
+
             progressIndicator1.CircleSize = 0.7f;
             progressIndicator1.NumberOfCircles = 10;
-            progressIndicator1.Start();
-
+      
            progressIndicator1.Hide();
            progressIndicator1.BackColor = Color.Transparent; 
             
@@ -70,12 +72,14 @@ namespace Spline
                 R = Convert.ToInt32(textBox1.Text);
             }
 
-              GraphPane pane = zedGraphControl1.GraphPane;
-              GraphPane pane2 = zedGraphControl2.GraphPane;
-              pane2.CurveList.Clear();
-              zedGraphControl2.ZoomOutAll(pane2);
-              zedGraphControl1.ZoomOutAll(pane);
-              pane.CurveList.Clear();
+              GraphPane ApproximationChart = zedGraphControl1.GraphPane;
+              zedGraphControl1.ZoomOutAll(ApproximationChart);
+              ApproximationChart.CurveList.Clear();
+
+              GraphPane observationalErrorChart = zedGraphControl2.GraphPane;
+              zedGraphControl2.ZoomOutAll(observationalErrorChart);
+              observationalErrorChart.CurveList.Clear();
+             
               richTextBox1.Text = "";
               
               
@@ -106,7 +110,7 @@ namespace Spline
             }
             
             Task<string> outputResultTask = tf.ContinueWhenAll(new Task[] {aproximation},
-                    tasks => GetValue(aproxFunction, aprox, pane, list, list_1, pane2, xmin, xmax, aproximation.Result));
+                    tasks => GetValue(aproxFunction, aprox, ApproximationChart, list, list_1, observationalErrorChart, xmin, xmax, aproximation.Result));
 
             tf.ContinueWhenAll(new Task[] { outputResultTask }, tasks => HideProgresIndicator());
 
@@ -246,23 +250,35 @@ namespace Spline
 
         private void HideProgresIndicator()
         {
-            if (this.richTextBox1.InvokeRequired)
+            if (this.progressIndicator1.InvokeRequired)
             {
                 var d = new BehaviourCallback(HideProgresIndicator);
                 this.Invoke(d);
             }
             else
             {
+                zedGraphControl1.Show();
+                zedGraphControl2.Show();
                 progressIndicator1.Stop();
+                progressIndicator2.Stop();
+                progressIndicator3.Stop();
                 progressIndicator1.Hide();
+                progressIndicator2.Hide();
+                progressIndicator3.Hide();
             }
            
         }
 
         private void ShowProgresIndicator()
         {
+            zedGraphControl1.Hide();
+            zedGraphControl2.Hide();
             progressIndicator1.Show();
-            progressIndicator1.Start(); 
+            progressIndicator2.Show();
+            progressIndicator3.Show();
+            progressIndicator1.Start();
+            progressIndicator2.Start();
+            progressIndicator3.Start(); 
            
         }
        

@@ -40,7 +40,7 @@
       <HintPath>..\..\..\..\Program Files\NUnit 2.6.3\bin\framework\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="ProgressControls">
-      <HintPath>..\..\..\Users\Taras\Desktop\ProgressIndicator\ProgressIndicator\bin\Debug\ProgressControls.dll</HintPath>
+      <HintPath>..\ProgressControls.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
