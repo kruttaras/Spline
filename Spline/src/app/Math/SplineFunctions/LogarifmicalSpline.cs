@@ -3,16 +3,16 @@ using Spline.Models;
 
 namespace Spline
 {
-    class LogarifmicalSpline : AproximatingFunction
+    class LogarifmicalSpline : ApproximatingFunction
     {
         public LogarifmicalSpline()
         {
-            Text = "ln(a0+a1*x+a2*x^2+a3*x^3)";
+            Text = "Логарифмічна - 4";
         }
 
         public override double[] GetCoeficients(AppMath.BaseFunc func, double x0, double x1)
         {
-            double[] a = new double[4];
+            var a = new double[4];
             double m1, m2, m3, m4, j0, j1, j2;
             double f0, df0, f1, df1;
 

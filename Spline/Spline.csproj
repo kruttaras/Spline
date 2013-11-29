@@ -63,12 +63,19 @@
   <ItemGroup>
     <Compile Include="src\app\Math\ApproximationAlgorithms\ApproximationAlgorithm.cs" />
     <Compile Include="src\app\Math\ApproximationAlgorithms\ApproximationWithGivenNumberOfSections.cs" />
+    <Compile Include="src\app\Math\Functions\Division.cs" />
+    <Compile Include="src\app\Math\Functions\Exp.cs" />
+    <Compile Include="src\app\Math\Functions\Ln.cs" />
+    <Compile Include="src\app\Math\Functions\Polinom.cs" />
+    <Compile Include="src\app\Math\Functions\Sin.cs" />
+    <Compile Include="src\app\Math\Functions\SquerOfSinPlusCos.cs" />
+    <Compile Include="src\app\Math\Functions\Tng.cs" />
     <Compile Include="src\app\Math\SplineFunctions\ExponencialSpline.cs" />
     <Compile Include="src\app\Math\SplineFunctions\Exponential5Spline.cs" />
     <Compile Include="src\app\Math\SplineFunctions\Logarifmical5Spline.cs" />
-    <Compile Include="src\app\Math\SplineFunctions\Multivalue3Spline.cs" />
-    <Compile Include="src\app\Math\SplineFunctions\LogarifmicalSpline.cs" />
     <Compile Include="src\app\Math\SplineFunctions\Multivalue4Spline.cs" />
+    <Compile Include="src\app\Math\SplineFunctions\LogarifmicalSpline.cs" />
+    <Compile Include="src\app\Math\SplineFunctions\Multivalue5Spline.cs" />
     <Compile Include="src\app\Utils\Logger.cs" />
     <Compile Include="src\app\Math\SplineFunctions\IAproximatingFunction.cs" />
     <Compile Include="MainForm.cs">

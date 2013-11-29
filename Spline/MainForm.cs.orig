@@ -49,18 +49,17 @@ namespace Spline
             observationalErrorChart.Title.Text = Resources.SplineChartTitle;
 
             progressIndicator1.CircleSize = 0.7f;
-            progressIndicator1.NumberOfCircles = 10;      
-            progressIndicator1.Start();
-
+            progressIndicator1.NumberOfCircles = 10;
+      
            progressIndicator1.Hide();
            progressIndicator1.BackColor = Color.Transparent; 
             
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {        
+        {
             Function = ((ComboBoxItem)comboBox1.SelectedItem).GetFunction();
-            ApproximatingFunction aproxFunction = ((ComboBoxItem)comboBox2.SelectedItem).GetAproximatingFunction();
+            AproximatingFunction aproxFunction = ((ComboBoxItem)comboBox2.SelectedItem).GetAproximatingFunction();
 
 
             string currencyDecimalSeparator = CultureInfo.InvariantCulture.NumberFormat.NumberGroupSeparator;
@@ -77,9 +76,9 @@ namespace Spline
                 R = Convert.ToInt32(textBox1.Text);
             }
 
-              GraphPane approximationChart = zedGraphControl1.GraphPane;
-              zedGraphControl1.ZoomOutAll(approximationChart);
-              approximationChart.CurveList.Clear();
+              GraphPane ApproximationChart = zedGraphControl1.GraphPane;
+              zedGraphControl1.ZoomOutAll(ApproximationChart);
+              ApproximationChart.CurveList.Clear();
 
               GraphPane observationalErrorChart = zedGraphControl2.GraphPane;
               zedGraphControl2.ZoomOutAll(observationalErrorChart);
@@ -105,8 +104,13 @@ namespace Spline
                 
             }
             
+<<<<<<< Updated upstream
+            Task<string> outputResultTask = tf.ContinueWhenAll(new Task[] {aproximation},
+                    tasks => GetValue(aproxFunction, aprox, ApproximationChart, list, list_1, observationalErrorChart, xmin, xmax, aproximation.Result));
+=======
             Task<string> outputResultTask = tf.ContinueWhenAll(new Task[] {approximation},
-                                       tasks => GetValue(aproxFunction, approximationChart, observationalErrorChart, xmin, xmax, approximation.Result));
+                    tasks => GetValue(aproxFunction, pane, pane2, xmin, xmax, approximation.Result));
+>>>>>>> Stashed changes
 
             tf.ContinueWhenAll(new Task[] { outputResultTask }, tasks => HideProgresIndicator());
 
@@ -114,7 +118,7 @@ namespace Spline
 
         }
 
-        private string GetValue(ApproximatingFunction aproxFunction, GraphPane pane, GraphPane pane2, double xmin, double xmax, List<Section> section)
+        private string GetValue(AproximatingFunction aproxFunction, GraphPane pane, GraphPane pane2, double xmin, double xmax, List<Section> section)
         {
             PointPairList list = AppUtils.GetPointPairsInRange(xmin, xmax, Function);
             var list1 = new PointPairList();

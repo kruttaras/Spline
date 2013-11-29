@@ -38,18 +38,15 @@ namespace Spline
             InitializeComponent();
             comboBox1.Items.AddRange(AppUtils.GetComboboxItemsWithFunctions());
             comboBox2.Items.AddRange(AppUtils.GetComboboxItemsWithAproximatingFunctions());
-
             comboBox1.SelectedIndex = 0;
             comboBox2.SelectedIndex = 0;
-
             GraphPane functionAndItsAproximationChart = zedGraphControl1.GraphPane;
             functionAndItsAproximationChart.Title.Text = Resources.FunctionChartTitle;
 
             GraphPane observationalErrorChart = zedGraphControl2.GraphPane;
             observationalErrorChart.Title.Text = Resources.SplineChartTitle;
-
             progressIndicator1.CircleSize = 0.7f;
-            progressIndicator1.NumberOfCircles = 10;      
+            progressIndicator1.NumberOfCircles = 10;
             progressIndicator1.Start();
 
            progressIndicator1.Hide();
@@ -58,9 +55,9 @@ namespace Spline
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {        
+        {
             Function = ((ComboBoxItem)comboBox1.SelectedItem).GetFunction();
-            ApproximatingFunction aproxFunction = ((ComboBoxItem)comboBox2.SelectedItem).GetAproximatingFunction();
+            AproximatingFunction aproxFunction = ((ComboBoxItem)comboBox2.SelectedItem).GetAproximatingFunction();
 
 
             string currencyDecimalSeparator = CultureInfo.InvariantCulture.NumberFormat.NumberGroupSeparator;
@@ -77,14 +74,12 @@ namespace Spline
                 R = Convert.ToInt32(textBox1.Text);
             }
 
-              GraphPane approximationChart = zedGraphControl1.GraphPane;
-              zedGraphControl1.ZoomOutAll(approximationChart);
-              approximationChart.CurveList.Clear();
-
-              GraphPane observationalErrorChart = zedGraphControl2.GraphPane;
-              zedGraphControl2.ZoomOutAll(observationalErrorChart);
-              observationalErrorChart.CurveList.Clear();
-             
+              GraphPane pane = zedGraphControl1.GraphPane;
+              GraphPane pane2 = zedGraphControl2.GraphPane;
+              pane2.CurveList.Clear();
+              zedGraphControl2.ZoomOutAll(pane2);
+              zedGraphControl1.ZoomOutAll(pane);
+              pane.CurveList.Clear();
               richTextBox1.Text = "";
               
 
@@ -106,7 +101,7 @@ namespace Spline
             }
             
             Task<string> outputResultTask = tf.ContinueWhenAll(new Task[] {approximation},
-                                       tasks => GetValue(aproxFunction, approximationChart, observationalErrorChart, xmin, xmax, approximation.Result));
+                    tasks => GetValue(aproxFunction, pane, pane2, xmin, xmax, approximation.Result));
 
             tf.ContinueWhenAll(new Task[] { outputResultTask }, tasks => HideProgresIndicator());
 
@@ -114,7 +109,7 @@ namespace Spline
 
         }
 
-        private string GetValue(ApproximatingFunction aproxFunction, GraphPane pane, GraphPane pane2, double xmin, double xmax, List<Section> section)
+        private string GetValue(AproximatingFunction aproxFunction, GraphPane pane, GraphPane pane2, double xmin, double xmax, List<Section> section)
         {
             PointPairList list = AppUtils.GetPointPairsInRange(xmin, xmax, Function);
             var list1 = new PointPairList();
@@ -248,35 +243,23 @@ namespace Spline
 
         private void HideProgresIndicator()
         {
-            if (this.progressIndicator1.InvokeRequired)
+            if (this.richTextBox1.InvokeRequired)
             {
                 var d = new BehaviourCallback(HideProgresIndicator);
                 this.Invoke(d);
             }
             else
             {
-                zedGraphControl1.Show();
-                zedGraphControl2.Show();
                 progressIndicator1.Stop();
-                progressIndicator2.Stop();
-                progressIndicator3.Stop();
                 progressIndicator1.Hide();
-                progressIndicator2.Hide();
-                progressIndicator3.Hide();
             }
            
         }
 
         private void ShowProgresIndicator()
         {
-            zedGraphControl1.Hide();
-            zedGraphControl2.Hide();
             progressIndicator1.Show();
-            progressIndicator2.Show();
-            progressIndicator3.Show();
-            progressIndicator1.Start();
-            progressIndicator2.Start();
-            progressIndicator3.Start(); 
+            progressIndicator1.Start(); 
            
         }
        

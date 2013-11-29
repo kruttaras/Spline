@@ -10,7 +10,7 @@ namespace Spline
     {
 
 
-        public override List<Section> Compute(double leftBorder, double rightBorder, AppMath.BaseFunc func, AproximatingFunction approximatingFunction, double observationalError, int numberOfSections = 1)
+        public override List<Section> Compute(double leftBorder, double rightBorder, AppMath.BaseFunc func, ApproximatingFunction approximatingFunction, double observationalError, int numberOfSections = 1)
         {
             var section = new List<Section>();
             double zl, zp, xmid, xtemp;

@@ -106,7 +106,7 @@ namespace Spline
             // 
             // progressIndicator1
             // 
-            this.progressIndicator1.Location = new System.Drawing.Point(244, 133);
+            this.progressIndicator1.Location = new System.Drawing.Point(236, 146);
             this.progressIndicator1.Name = "progressIndicator1";
             this.progressIndicator1.Percentage = 0F;
             this.progressIndicator1.Size = new System.Drawing.Size(90, 90);
@@ -141,7 +141,7 @@ namespace Spline
             // 
             // progressIndicator2
             // 
-            this.progressIndicator2.Location = new System.Drawing.Point(241, 132);
+            this.progressIndicator2.Location = new System.Drawing.Point(235, 146);
             this.progressIndicator2.Name = "progressIndicator2";
             this.progressIndicator2.Percentage = 0F;
             this.progressIndicator2.Size = new System.Drawing.Size(90, 90);
@@ -176,7 +176,7 @@ namespace Spline
             // 
             // progressIndicator3
             // 
-            this.progressIndicator3.Location = new System.Drawing.Point(214, 128);
+            this.progressIndicator3.Location = new System.Drawing.Point(235, 146);
             this.progressIndicator3.Name = "progressIndicator3";
             this.progressIndicator3.Percentage = 0F;
             this.progressIndicator3.Size = new System.Drawing.Size(90, 90);
@@ -283,7 +283,7 @@ namespace Spline
             this.groupBox2.Size = new System.Drawing.Size(258, 65);
             this.groupBox2.TabIndex = 20;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Ланка сплайна";
+            this.groupBox2.Text = "Ланка сплайна - кількість параметрів";
             // 
             // comboBox2
             // 

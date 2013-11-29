@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Reflection;
-using Spline.Models;
 using ZedGraph;
 
 namespace Spline.Models
@@ -14,7 +11,7 @@ namespace Spline.Models
         {
             IList<AppMath.BaseFunc> functions = new List<AppMath.BaseFunc>();
 
-            Assembly[] classes= AppDomain.CurrentDomain.GetAssemblies();
+            var classes= AppDomain.CurrentDomain.GetAssemblies();
 
             Type baseFunc = typeof(AppMath.BaseFunc);
             for (int i = 0; i < classes.Length; i++)
@@ -31,20 +28,20 @@ namespace Spline.Models
             return functions;
         }
         //TODO refactor this and that
-        public static IList<AproximatingFunction> GetAllAproximatingFunctions()
+        public static IList<ApproximatingFunction> GetAllAproximatingFunctions()
         {
-            IList<AproximatingFunction> functions = new List<AproximatingFunction>();
+            IList<ApproximatingFunction> functions = new List<ApproximatingFunction>();
 
             Assembly[] classes = AppDomain.CurrentDomain.GetAssemblies();
 
-            Type baseFunc = typeof(AproximatingFunction);
+            Type baseFunc = typeof(ApproximatingFunction);
             for (int i = 0; i < classes.Length; i++)
             {
                 foreach (Type type in classes[i].GetTypes())
                 {
                     if (type.IsSubclassOf(baseFunc))
                     {
-                        functions.Add((AproximatingFunction)Activator.CreateInstance(type));
+                        functions.Add((ApproximatingFunction)Activator.CreateInstance(type));
                     }
                 }
 
@@ -55,7 +52,7 @@ namespace Spline.Models
         public static object[] GetComboboxItemsWithFunctions()
         {
             IList<AppMath.BaseFunc> functions = GetAllFunctions();
-            object[] cbItems = new object[functions.Count];
+            var cbItems = new object[functions.Count];
             for (int i = 0; i < cbItems.Length; i++)
             {
                 cbItems[i] = new ComboBoxItem(functions[i]);
@@ -65,8 +62,8 @@ namespace Spline.Models
 
         public static object[] GetComboboxItemsWithAproximatingFunctions()
         {
-            IList<AproximatingFunction> functions = GetAllAproximatingFunctions();
-            object[] cbItems = new object[functions.Count];
+            IList<ApproximatingFunction> functions = GetAllAproximatingFunctions();
+            var cbItems = new object[functions.Count];
             for (int i = 0; i < cbItems.Length; i++)
             {
                 cbItems[i] = new ComboBoxItem(functions[i]);
@@ -78,12 +75,12 @@ namespace Spline.Models
         {
             if (func == null) throw new ArgumentNullException("func");
 
-            PointPairList pointsList= new PointPairList();
+            var pointsList= new PointPairList();
 
-            for (double x = fromPoint; x <= toPoint; x += h)
+            for (var x = fromPoint; x <= toPoint; x += h)
             {
 
-                double fx = func.Val(x);
+                var fx = func.Val(x);
 
                 pointsList.Add(x, fx);
 

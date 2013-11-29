@@ -30,9 +30,9 @@ namespace Spline.Models
             return GetTemplateFunction<AppMath.BaseFunc>();  
         }
 
-        public AproximatingFunction GetAproximatingFunction()
+        public ApproximatingFunction GetAproximatingFunction()
         {
-            return GetTemplateFunction<AproximatingFunction>();
+            return GetTemplateFunction<ApproximatingFunction>();
         }
 
         private T GetTemplateFunction<T>()

@@ -17,20 +17,20 @@ namespace Spline.Models
         private Section()
         {
         }
-        public Section(double LPoint, double RPoint,double[] coef, double Mu)
+        public Section(double lPoint, double rPoint,double[] coef, double mu)
         {
-            if (LPoint < RPoint)
+            if (lPoint < rPoint)
             {
-                this.RightPoint = RPoint;
-                this.LeftPoint = LPoint;
+                this.RightPoint = rPoint;
+                this.LeftPoint = lPoint;
                 this.Coef = coef;
-                this.Mu = Mu;
+                this.Mu = mu;
             }
             else
             {
                 throw new Exception();
             }
-            Logger.Info("saving section with parametrs \n x = " + LeftPoint + ", y = " + RightPoint + ", " + coef.ToString() + ", Mu = " + Mu, "Section");
+            Logger.Info("saving section with params \n x = " + LeftPoint + ", y = " + RightPoint + ", " + coef.ToString() + ", Mu = " + mu, "Section");
         }
 
     }

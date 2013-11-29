@@ -1,5 +1,4 @@
 ﻿using System.Drawing.Drawing2D;
-using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using NCalc;
@@ -49,25 +48,21 @@ namespace Spline
             observationalErrorChart.Title.Text = Resources.SplineChartTitle;
 
             progressIndicator1.CircleSize = 0.7f;
-            progressIndicator1.NumberOfCircles = 10;      
-            progressIndicator1.Start();
-
+            progressIndicator1.NumberOfCircles = 10;
+      
            progressIndicator1.Hide();
            progressIndicator1.BackColor = Color.Transparent; 
             
         }
 
         private void button1_Click(object sender, EventArgs e)
-        {        
+        {
+            
+            section = new List<Section>();
+          
             Function = ((ComboBoxItem)comboBox1.SelectedItem).GetFunction();
-            ApproximatingFunction aproxFunction = ((ComboBoxItem)comboBox2.SelectedItem).GetAproximatingFunction();
-
-
-            string currencyDecimalSeparator = CultureInfo.InvariantCulture.NumberFormat.NumberGroupSeparator;
-            textBox5.Text = textBox5.Text.Replace(".", currencyDecimalSeparator).Replace(",", currencyDecimalSeparator);
-            textBox6.Text = textBox6.Text.Replace(".", currencyDecimalSeparator).Replace(",", currencyDecimalSeparator);
-            textBox7.Text = textBox7.Text.Replace(".", currencyDecimalSeparator).Replace(",", currencyDecimalSeparator);
-
+            AproximatingFunction aproxFunction = ((ComboBoxItem)comboBox2.SelectedItem).GetAproximatingFunction();
+            
             double xmin = Convert.ToDouble(textBox5.Text);
             double xmax = Convert.ToDouble(textBox6.Text);
             Mu = Convert.ToDouble(textBox7.Text);
@@ -77,9 +72,9 @@ namespace Spline
                 R = Convert.ToInt32(textBox1.Text);
             }
 
-              GraphPane approximationChart = zedGraphControl1.GraphPane;
-              zedGraphControl1.ZoomOutAll(approximationChart);
-              approximationChart.CurveList.Clear();
+              GraphPane ApproximationChart = zedGraphControl1.GraphPane;
+              zedGraphControl1.ZoomOutAll(ApproximationChart);
+              ApproximationChart.CurveList.Clear();
 
               GraphPane observationalErrorChart = zedGraphControl2.GraphPane;
               zedGraphControl2.ZoomOutAll(observationalErrorChart);
@@ -87,6 +82,15 @@ namespace Spline
              
               richTextBox1.Text = "";
               
+              
+                PointPairList list = new PointPairList();
+                PointPairList list_aprox = new PointPairList();
+
+
+                list = AppUtils.GetPointPairsInRange(xmin, xmax, Function);     
+
+                PointPairList list_1 = new PointPairList();
+                PointPairList aprox = new PointPairList();
 
             var tf = new TaskFactory(
                 TaskCreationOptions.AttachedToParent,
@@ -94,19 +98,19 @@ namespace Spline
 
 
             ShowProgresIndicator();
-            Task<List<Section>> approximation;
+            Task<List<Section>> aproximation;
             if (radioButton4.Checked)
             {
-                approximation = tf.StartNew(() => ApproximationWithGivenNumberOfSections.Instance.Compute(xmin, xmax, Function, aproxFunction, Mu, R));
+                aproximation = tf.StartNew(() => ApproximationWithGivenNumberOfSections.Instance.Compute(xmin, xmax, Function, aproxFunction, Mu, R));
             }
             else
             {
-                approximation = tf.StartNew(() => ApproximationWithGivenObservationalError.Instance.Compute(xmin, xmax, Function, aproxFunction, Mu));
+                aproximation = tf.StartNew(() => ApproximationWithGivenObservationalError.Instance.Compute(xmin, xmax, Function, aproxFunction, Mu));
                 
             }
             
-            Task<string> outputResultTask = tf.ContinueWhenAll(new Task[] {approximation},
-                                       tasks => GetValue(aproxFunction, approximationChart, observationalErrorChart, xmin, xmax, approximation.Result));
+            Task<string> outputResultTask = tf.ContinueWhenAll(new Task[] {aproximation},
+                    tasks => GetValue(aproxFunction, aprox, ApproximationChart, list, list_1, observationalErrorChart, xmin, xmax, aproximation.Result));
 
             tf.ContinueWhenAll(new Task[] { outputResultTask }, tasks => HideProgresIndicator());
 
@@ -114,13 +118,11 @@ namespace Spline
 
         }
 
-        private string GetValue(ApproximatingFunction aproxFunction, GraphPane pane, GraphPane pane2, double xmin, double xmax, List<Section> section)
+        private string GetValue(AproximatingFunction aproxFunction, PointPairList aprox, GraphPane pane, PointPairList list,
+            PointPairList list_1, GraphPane pane2, double xmin, double xmax, List<Section> section1 )
         {
-            PointPairList list = AppUtils.GetPointPairsInRange(xmin, xmax, Function);
-            var list1 = new PointPairList();
-            var aprox = new PointPairList();
-
             String str = "";
+            section = section1;
             str += "Ланок побудовано: " + section.Count + "\n";
             str += "_______________________________________________\n";
             for (int i = 0; i < section.Count; i++)
@@ -153,7 +155,7 @@ namespace Spline
 
 
             zedGraphControl1.Invalidate();
-            list1.Clear();
+            list_1.Clear();
 
             Logger.Info("Mu  function max value of each section for function " + Function.ToString(), "MainForm");
             int LogCounter = 1;
@@ -166,24 +168,24 @@ namespace Spline
                 {
                     double fx = Math.Abs(Function.Val(x) - aproxFunction.GetAproximatingFunction(x, coef));
                     if (fx > max) max = fx;
-                    list1.Add(x, fx);
+                    list_1.Add(x, fx);
                 }
                 Logger.Info("Section#" + LogCounter++ + "Max value = " + max, "MainForm");
             }
 
-            LineItem newCurves = pane2.AddCurve("Ro", list1, Color.Blue, SymbolType.None);
-            list1 = new PointPairList();
+            LineItem newCurves = pane2.AddCurve("Ro", list_1, Color.Blue, SymbolType.None);
+            list_1 = new PointPairList();
             if (radioButton4.Checked)
             {
                 Mu = max;
             }
             
-            list1.Add(xmin, Mu);
-            list1.Add(xmax, Mu);
+            list_1.Add(xmin, Mu);
+            list_1.Add(xmax, Mu);
                 
             
             
-            newCurves = pane2.AddCurve("Mu", list1, Color.Red);
+            newCurves = pane2.AddCurve("Mu", list_1, Color.Red);
             newCurves.Line.Style = DashStyle.Custom;
             newCurves.Line.Width = 2;
             newCurves.Line.DashOn = 5;

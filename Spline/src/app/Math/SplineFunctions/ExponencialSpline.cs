@@ -6,15 +6,15 @@ using System.Text;
 
 namespace Spline
 {
-    class ExponencialSpline : AproximatingFunction
+    class ExponencialSpline : ApproximatingFunction
     {
         public ExponencialSpline()
         {
-            Text = "a0*exp(a1*x+a2*x^2+a3*x^3)";
+            Text = "Експоненціальна - 4";
         }
         public override double[] GetCoeficients(AppMath.BaseFunc func, double x0, double x1)
         {
-            double[] a = new double[5] { 0, 0, 0, 0, 0 };
+            double[] a = { 0, 0, 0, 0 };
 
             double x0_x1 = (x0 - x1);
             double LogF0_F1 = Math.Log(func.Val(x0) / func.Val(x1));

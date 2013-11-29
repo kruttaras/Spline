@@ -9,7 +9,7 @@ namespace Spline
 {
     class ApproximationWithGivenNumberOfSections: ApproximationAlgorithm<ApproximationWithGivenNumberOfSections>
     {
-        public override List<Section> Compute(double leftBorder, double rightBorder, AppMath.BaseFunc func, AproximatingFunction approximatingFunction, double observationalError, int numberOfSections = 1)
+        public override List<Section> Compute(double leftBorder, double rightBorder, AppMath.BaseFunc func, ApproximatingFunction approximatingFunction, double observationalError, int numberOfSections = 1)
         {
 
             List<Section> section;

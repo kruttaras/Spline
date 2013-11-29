@@ -3,63 +3,40 @@ using Spline.Models;
 
 namespace Spline
 {
-    class Multivalue4Spline : AproximatingFunction
+    class Multivalue4Spline : ApproximatingFunction
     {
         public Multivalue4Spline()
         {
-            Text = "a0+a1*x+a2*x^2+a3*x^3+a4*x^4";
+            Text = "Многочленна - 4";
         }
 
         public override double[] GetCoeficients(AppMath.BaseFunc func, double x0, double x1)
         {
-            double[] a = new double[5];
+            var a = new double[4];
+            double  alpha1, alpha2, beta1, beta2, miu1, miu2;
 
-            double x2 = x1;
-            x1 = (x1 + x0)/2;
+            double alpha = (func.Val(x1) - func.Val(x0))/(x1 - x0);
+            alpha1 = alpha - func.Diff(x0);
+            alpha2 = alpha - func.Diff(x1);
 
-            double[] f = new[] {func.Val(x0), func.Val(x1), func.Val(x2)};
-            double[] df = new[] {func.Diff(x0), func.Diff(x1), func.Diff(x2)};
-            double[] x = new[] { x0, x1, x2 };
+            double beta = (x1*x1 - x0*x0)/(x1 - x0);
+            beta1 = beta - 2*x0;
+            beta2 = beta - 2*x1;
 
-            double  p, q, r;
-            
-            p = x0 + x1 + x2;
-            q = x0*x0 + x1*x1 + x2*x2 + x0*x1 + x1*x2 + x0*x2;
+            double miu = (Math.Pow(x1, 3) - Math.Pow(x0, 3))/(x1 - x0);
+            miu1 = miu - 3*x0*x0;
+            miu2 = miu - 3 * x1 * x1;
 
-            double x1_x0 = x1 - x0;
-            double x2_x1 = x2 - x1;
-            r = 1 / (x2 - x0) * ((f[2] - f[1]) / x2_x1 - (f[1] - f[0]) / x1_x0);
-            
-
-            double alpha1, alpha2;
-            alpha1 = df[0] - (f[1] - f[0])/x1_x0 + r*(x1*x1 - x0*x0)/x1_x0 - 2 * r * x0;
-            alpha2 = df[2] - (f[2] - f[1]) / x2_x1 + r * (x2 * x2 - x1 * x1) / x2_x1 - 2 * r * x2;
-
-            double beta1, beta2;
-            beta1 = p * diffOf(1,0,x,2)/(x1_x0) - diffOf(1,0,x,3) /(x1_x0) - 2*q*x0 + 3*x0*x0;
-            beta2 = p * diffOf(2, 1, x, 2) / (x2_x1) - diffOf(2, 1, x, 3) / (x2_x1) - 2 * q * x2 + 3 * x2 * x2;
-
-            double miu1, miu2;
-            miu1 = q * diffOf(1, 0, x, 2)/x1_x0 - diffOf(1, 0, x, 4)/x1_x0 - 2*q*x0 + (double) (4*Math.Pow((double) x0, 3));
-            miu2 = q * diffOf(2, 1, x, 2) / x2_x1 - diffOf(2, 1, x, 4) / x2_x1 - 2 * q * x2 + (double) (4 * Math.Pow((double) x2, 3));
-
-            a[4] = (beta1*alpha2 - beta2*alpha1)/(beta1*miu2 - beta2*miu1);
-            a[3] = (alpha1-miu1*a[4])/beta1;
-            a[2] = r-p*a[3]-q*a[4];
-            a[1] = (f[1] - f[0] - a[2]*diffOf(1, 0, x, 2) - a[3]*diffOf(1, 0, x, 3) - a[4]*diffOf(1, 0, x, 4))/x1_x0;
-            a[0] = func.Val(x0) - a[1] * x0 - a[2] * x0 * x0 - a[3] * Math.Pow(x0, 3) - a[4] * Math.Pow(x0, 4);
-            miu1 = 0;
+            a[3] = (beta1*alpha2 - beta2*alpha1)/(beta1*miu2 - beta2*miu1);
+            a[2] = (alpha1 - miu1*a[3])/beta1;
+            a[1] = alpha - a[2]*beta - a[3]*miu;
+            a[0] = func.Val(x0) - a[1]*x0 - a[2]*x0*x0 - a[3]*Math.Pow(x0, 3);
             return a;
         }
 
         public override double GetAproximatingFunction(double x, double[] a)
         {
-            return (a[0] + a[1] * x + a[2] * Math.Pow(x, 2) + a[3] * Math.Pow(x, 3) + a[4] * Math.Pow(x, 4));
-        }
-
-        private double diffOf(int first, int second, double[] mass, int pow = 1)
-        {
-            return (double) (Math.Pow((double) mass[first], pow) - Math.Pow((double) mass[second], pow));
+            return (a[0] + a[1]*x + a[2]*Math.Pow(x, 2) + a[3]*Math.Pow(x, 3));
         }
     }
 }
