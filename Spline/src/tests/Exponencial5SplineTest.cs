@@ -13,7 +13,7 @@ namespace Spline.Tests
             AppMath.BaseFunc exp = new Exp();
             double[] expected = new double[] { 1.00d, 0, -7.00d, 0, 0 };
             exp.SetParametrs(expected);
-            double[] actual = new Exponential5Spline().GetCoeficients(exp, 0.1, 0.9);
+            double[] actual = new ExponentialSplineWithFiveParametrs().GetCoeficients(exp, 0.1, 0.9);
 
             AssertThatCoeficientsMatches(expected, actual);
         }
@@ -24,7 +24,7 @@ namespace Spline.Tests
             AppMath.BaseFunc exp = new Exp();
             double[] expected = new double[] { 1.00d, 0, 0, -7.00d, 0 };
             exp.SetParametrs(expected);
-            double[] actual = new Exponential5Spline().GetCoeficients(exp, 0.1, 0.9);
+            double[] actual = new ExponentialSplineWithFiveParametrs().GetCoeficients(exp, 0.1, 0.9);
 
             AssertThatCoeficientsMatches(expected, actual);
 
@@ -36,7 +36,7 @@ namespace Spline.Tests
             AppMath.BaseFunc exp = new Exp();
             double[] expected = new double[] { 1.00d, 0, 2.00d, -3.00d, 0 };
             exp.SetParametrs(expected);
-            double[] actual = new Exponential5Spline().GetCoeficients(exp, 0.1, 0.9);
+            double[] actual = new ExponentialSplineWithFiveParametrs().GetCoeficients(exp, 0.1, 0.9);
 
             AssertThatCoeficientsMatches(expected, actual);
 
@@ -48,7 +48,7 @@ namespace Spline.Tests
             AppMath.BaseFunc exp = new Exp();
             double[] expected = new double[] { 1.00d, -4.00d, 2.00d, -3.00d, 0 };
             exp.SetParametrs(expected);
-            double[] actual = new Exponential5Spline().GetCoeficients(exp, 0.1, 0.9);
+            double[] actual = new ExponentialSplineWithFiveParametrs().GetCoeficients(exp, 0.1, 0.9);
 
             AssertThatCoeficientsMatches(expected, actual);
         }
@@ -59,7 +59,7 @@ namespace Spline.Tests
             AppMath.BaseFunc exp = new Exp();
             double[] expected = new double[] { 1.00d, -4.00d, 2.00d, -3.00d, 5.00d };
             exp.SetParametrs(expected);
-            double[] actual = new Exponential5Spline().GetCoeficients(exp, 0.1, 0.9);
+            double[] actual = new ExponentialSplineWithFiveParametrs().GetCoeficients(exp, 0.1, 0.9);
 
             AssertThatCoeficientsMatches(expected, actual);
         }
@@ -74,7 +74,7 @@ namespace Spline.Tests
             {
                 expected[4] = Convert.ToDouble(i);
                 exp.SetParametrs(expected);
-                double[] actual = new Exponential5Spline().GetCoeficients(exp, 0.1, 0.9);
+                double[] actual = new ExponentialSplineWithFiveParametrs().GetCoeficients(exp, 0.1, 0.9);
 
                 AssertThatCoeficientsMatches(expected, actual);
             }
@@ -86,7 +86,7 @@ namespace Spline.Tests
             AppMath.BaseFunc exp = new Exp();
             double[] expected = new double[] { 1.00d, 2.00d, 0, 0, 0};
             exp.SetParametrs(expected);
-            double[] actual = new Exponential5Spline().GetCoeficients(exp, 0.1, 0.9);
+            double[] actual = new ExponentialSplineWithFiveParametrs().GetCoeficients(exp, 0.1, 0.9);
 
             AssertThatCoeficientsMatches(expected, actual);
         }

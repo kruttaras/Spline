@@ -68,6 +68,7 @@ namespace Spline
             this.radioButton5 = new System.Windows.Forms.RadioButton();
             this.radioButton4 = new System.Windows.Forms.RadioButton();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -370,11 +371,22 @@ namespace Spline
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Наближувана функція";
             // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(611, 423);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(118, 32);
+            this.button2.TabIndex = 26;
+            this.button2.Text = "Зупинити";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(881, 467);
+            this.Controls.Add(this.button2);
             this.Controls.Add(this.groupBox5);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
@@ -430,5 +442,6 @@ namespace Spline
         private ProgressControls.ProgressIndicator progressIndicator2;
         private ProgressControls.ProgressIndicator progressIndicator3;
         private ProgressControls.ProgressIndicator progressIndicator1;
+        private System.Windows.Forms.Button button2;
 	}
 }

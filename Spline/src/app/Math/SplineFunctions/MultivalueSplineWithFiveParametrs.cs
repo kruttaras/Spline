@@ -3,9 +3,9 @@ using Spline.Models;
 
 namespace Spline
 {
-    class Multivalue5Spline : ApproximatingFunction
+    class MultivalueSplineWithFiveParametrs : ApproximatingFunction
     {
-        public Multivalue5Spline()
+        public MultivalueSplineWithFiveParametrs()
         {
             Text = "Многочленна - 5";
         }
@@ -52,7 +52,7 @@ namespace Spline
             return a;
         }
 
-        public override double GetAproximatingFunction(double x, double[] a)
+        public override double GetAproximating_function(double x, double[] a)
         {
             return (a[0] + a[1] * x + a[2] * Math.Pow(x, 2) + a[3] * Math.Pow(x, 3) + a[4] * Math.Pow(x, 4));
         }

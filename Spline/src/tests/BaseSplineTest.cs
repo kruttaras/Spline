@@ -15,7 +15,7 @@ namespace Spline.Tests
 
         protected void AssertThatCoeficientsMatches(double[] expected, double[] actual, double eps)
         {
-            for (int i = 0; i <expected.Length; i++)
+            for (int i = 0; i < actual.Length; i++)
             {
                 if (!Equals(expected[i], actual[i]))
                 {

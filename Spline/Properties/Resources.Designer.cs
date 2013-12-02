@@ -72,9 +72,9 @@ namespace Spline.Properties {
         /// <summary>
         ///   Looks up a localized string similar to f( x ).
         /// </summary>
-        internal static string ChartFunctionName {
+        internal static string Chart_functionName {
             get {
-                return ResourceManager.GetString("ChartFunctionName", resourceCulture);
+                return ResourceManager.GetString("Chart_functionName", resourceCulture);
             }
         }
         
@@ -90,9 +90,9 @@ namespace Spline.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Графік функції та сплайна.
         /// </summary>
-        internal static string FunctionChartTitle {
+        internal static string _functionChartTitle {
             get {
-                return ResourceManager.GetString("FunctionChartTitle", resourceCulture);
+                return ResourceManager.GetString("_functionChartTitle", resourceCulture);
             }
         }
         

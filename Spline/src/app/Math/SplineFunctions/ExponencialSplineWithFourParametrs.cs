@@ -1,14 +1,11 @@
 ﻿using Spline.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Spline
 {
-    class ExponencialSpline : ApproximatingFunction
+    class ExponencialSplineWithFourParametrs : ApproximatingFunction
     {
-        public ExponencialSpline()
+        public ExponencialSplineWithFourParametrs()
         {
             Text = "Експоненціальна - 4";
         }
@@ -31,7 +28,7 @@ namespace Spline
             return a;
         }
 
-        public override double GetAproximatingFunction(double x, double[] a)
+        public override double GetAproximating_function(double x, double[] a)
         {
             return (a[0] * Math.Exp(a[1] * x + a[2] * Math.Pow(x, 2) + a[3] * Math.Pow(x, 3)));
         }

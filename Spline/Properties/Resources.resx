@@ -126,13 +126,13 @@
   <data name="ChartSplineName" xml:space="preserve">
     <value>S( x )</value>
   </data>
-  <data name="ChartFunctionName" xml:space="preserve">
+  <data name="Chart_functionName" xml:space="preserve">
     <value>f( x )</value>
   </data>
   <data name="SplineChartTitle" xml:space="preserve">
     <value>Функція похибки</value>
   </data>
-  <data name="FunctionChartTitle" xml:space="preserve">
+  <data name="_functionChartTitle" xml:space="preserve">
     <value>Графік функції та сплайна</value>
   </data>
 </root>

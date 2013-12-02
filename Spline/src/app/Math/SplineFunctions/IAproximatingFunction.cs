@@ -7,7 +7,7 @@ namespace Spline
     {
        public abstract double[] GetCoeficients(AppMath.BaseFunc func, double x0, double x1);
 
-       public abstract double GetAproximatingFunction(double x, double[] a);
+       public abstract double GetAproximating_function(double x, double[] a);
 
        protected double ln(double x)
        {

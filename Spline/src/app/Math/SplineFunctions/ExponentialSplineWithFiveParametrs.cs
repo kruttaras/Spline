@@ -3,10 +3,10 @@ using Spline.Models;
 
 namespace Spline
 {
-    class Exponential5Spline : ApproximatingFunction
+    class ExponentialSplineWithFiveParametrs : ApproximatingFunction
     {
 
-        public Exponential5Spline()
+        public ExponentialSplineWithFiveParametrs()
         {
             Text = "Експоненціальна - 5";
         }
@@ -56,13 +56,8 @@ namespace Spline
                           (dzeta2*beta1 - dzeta1*beta2)*(gamma1*beta3 - gamma3*beta1);
             a[2] = chus/znam;
 
-             a[3] = (alpha2*beta1 - alpha1*beta2 + (gamma1*beta2 - gamma2*beta1)*a[2])/(dzeta2*beta1 - dzeta1*beta2);
+            a[3] = (alpha2*beta1 - alpha1*beta2 + (gamma1*beta2 - gamma2*beta1)*a[2])/(dzeta2*beta1 - dzeta1*beta2);
 
-            
-          //  chus= alpha1*gamma3*(beta2-beta3)-alpha2*(beta1*gamma3-beta3*gamma1)+alpha3*beta1*(gamma2-gamma1);
-         //   znam = beta1*(gamma2*dzeta3 - gamma3*dzeta2) - beta2*(gamma1*dzeta3 - gamma3*dzeta1) + beta3*(gamma1*dzeta2 - gamma2*dzeta1);
-
-          //  a[3] =chus/znam;
             a[4] = (alpha1 - dzeta1 * a[3] - gamma1 * a[2]) / beta1;
 
             a[1] = (1/x1_x0)*
@@ -74,7 +69,7 @@ namespace Spline
             return a;
         }
 
-        public override double GetAproximatingFunction(double x, double[] a)
+        public override double GetAproximating_function(double x, double[] a)
         {
             return (a[0] * Math.Exp(a[1] * x + a[2] * Math.Pow(x, 2) + a[3] * Math.Pow(x, 3) + a[4] * Math.Pow(x, 4)));
         }

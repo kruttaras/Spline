@@ -1,5 +1,6 @@
 ﻿using System.Drawing.Drawing2D;
 using System.Globalization;
+using System.Runtime.Remoting.Messaging;
 using System.Threading;
 using System.Threading.Tasks;
 using NCalc;
@@ -24,9 +25,10 @@ namespace Spline
     {
         private Expression expression;
         private double Mu=0.005;
-        int R;
-        private AppMath.BaseFunc Function;
-        private IList<Section> section=new List<Section>();
+        int numberOfSections;
+        private AppMath.BaseFunc _function;
+
+        CancellationTokenSource ts ;
 
         delegate void SetTextCallback(string text);
 
@@ -36,14 +38,14 @@ namespace Spline
         {
          
             InitializeComponent();
-            comboBox1.Items.AddRange(AppUtils.GetComboboxItemsWithFunctions());
-            comboBox2.Items.AddRange(AppUtils.GetComboboxItemsWithAproximatingFunctions());
+            comboBox1.Items.AddRange(AppUtils.GetComboboxItemsWith_functions());
+            comboBox2.Items.AddRange(AppUtils.GetComboboxItemsWithAproximating_functions());
 
             comboBox1.SelectedIndex = 0;
             comboBox2.SelectedIndex = 0;
 
             GraphPane functionAndItsAproximationChart = zedGraphControl1.GraphPane;
-            functionAndItsAproximationChart.Title.Text = Resources.FunctionChartTitle;
+            functionAndItsAproximationChart.Title.Text = Resources._functionChartTitle;
 
             GraphPane observationalErrorChart = zedGraphControl2.GraphPane;
             observationalErrorChart.Title.Text = Resources.SplineChartTitle;
@@ -53,70 +55,86 @@ namespace Spline
             progressIndicator1.Start();
 
            progressIndicator1.Hide();
-           progressIndicator1.BackColor = Color.Transparent; 
-            
+           progressIndicator1.BackColor = Color.Transparent;
+
+            button2.Enabled = false;
+
         }
 
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ts.Cancel();
+            HideProgresIndicator();
+        }
+       
+
         private void button1_Click(object sender, EventArgs e)
-        {        
-            Function = ((ComboBoxItem)comboBox1.SelectedItem).GetFunction();
-            ApproximatingFunction aproxFunction = ((ComboBoxItem)comboBox2.SelectedItem).GetAproximatingFunction();
+        {
+            _function = ((ComboBoxItem)comboBox1.SelectedItem).Get_function();
+            ApproximatingFunction aproxFunction = ((ComboBoxItem)comboBox2.SelectedItem).GetAproximating_function();
 
-
-            string currencyDecimalSeparator = CultureInfo.InvariantCulture.NumberFormat.NumberGroupSeparator;
-            textBox5.Text = textBox5.Text.Replace(".", currencyDecimalSeparator).Replace(",", currencyDecimalSeparator);
-            textBox6.Text = textBox6.Text.Replace(".", currencyDecimalSeparator).Replace(",", currencyDecimalSeparator);
-            textBox7.Text = textBox7.Text.Replace(".", currencyDecimalSeparator).Replace(",", currencyDecimalSeparator);
+            GraphPane observationalErrorChart;
+            var approximationChart = PrepareFormForNewResult(out observationalErrorChart);
 
             double xmin = Convert.ToDouble(textBox5.Text);
             double xmax = Convert.ToDouble(textBox6.Text);
             Mu = Convert.ToDouble(textBox7.Text);
 
+            AlgorithmBuilder builder = new AlgorithmBuilder();
+            builder.SetBorders(xmin, xmax)
+                .SetFunction(_function)
+                .SetApproximatingFunction(aproxFunction)
+                .SetObservationalError(Mu);
+
             if (radioButton4.Checked)
             {
-                R = Convert.ToInt32(textBox1.Text);
+               numberOfSections = Convert.ToInt32(textBox1.Text);
+               builder.SetNumberOfSections(numberOfSections);
             }
+            
+              ShowProgresIndicator();
 
-              GraphPane approximationChart = zedGraphControl1.GraphPane;
-              zedGraphControl1.ZoomOutAll(approximationChart);
-              approximationChart.CurveList.Clear();
-
-              GraphPane observationalErrorChart = zedGraphControl2.GraphPane;
-              zedGraphControl2.ZoomOutAll(observationalErrorChart);
-              observationalErrorChart.CurveList.Clear();
-             
-              richTextBox1.Text = "";
-              
+              ts = new CancellationTokenSource();
+              CancellationToken ct = ts.Token;
 
             var tf = new TaskFactory(
                 TaskCreationOptions.AttachedToParent,
                 TaskContinuationOptions.AttachedToParent);
 
+            IApproximationAlgorithm algorithm = builder.Build();
 
-            ShowProgresIndicator();
-            Task<List<Section>> approximation;
-            if (radioButton4.Checked)
-            {
-                approximation = tf.StartNew(() => ApproximationWithGivenNumberOfSections.Instance.Compute(xmin, xmax, Function, aproxFunction, Mu, R));
-            }
-            else
-            {
-                approximation = tf.StartNew(() => ApproximationWithGivenObservationalError.Instance.Compute(xmin, xmax, Function, aproxFunction, Mu));
-                
-            }
+
+            Task<List<Section>> approximation = tf.StartNew(() => algorithm.Compute(), ct);
             
             Task<string> outputResultTask = tf.ContinueWhenAll(new Task[] {approximation},
-                                       tasks => GetValue(aproxFunction, approximationChart, observationalErrorChart, xmin, xmax, approximation.Result));
+                                       tasks => GetValue(aproxFunction, approximationChart, observationalErrorChart, xmin, xmax, approximation.Result), ct);
 
-            tf.ContinueWhenAll(new Task[] { outputResultTask }, tasks => HideProgresIndicator());
-
-
+            tf.ContinueWhenAll(new Task[] { outputResultTask }, tasks => HideProgresIndicator(),ct);
 
         }
 
-        private string GetValue(ApproximatingFunction aproxFunction, GraphPane pane, GraphPane pane2, double xmin, double xmax, List<Section> section)
+        private GraphPane PrepareFormForNewResult(out GraphPane observationalErrorChart)
         {
-            PointPairList list = AppUtils.GetPointPairsInRange(xmin, xmax, Function);
+            string currencyDecimalSeparator = CultureInfo.InvariantCulture.NumberFormat.NumberGroupSeparator;
+            textBox5.Text = textBox5.Text.Replace(".", currencyDecimalSeparator).Replace(",", currencyDecimalSeparator);
+            textBox6.Text = textBox6.Text.Replace(".", currencyDecimalSeparator).Replace(",", currencyDecimalSeparator);
+            textBox7.Text = textBox7.Text.Replace(".", currencyDecimalSeparator).Replace(",", currencyDecimalSeparator);
+
+            GraphPane approximationChart = zedGraphControl1.GraphPane;
+            zedGraphControl1.ZoomOutAll(approximationChart);
+            approximationChart.CurveList.Clear();
+
+            observationalErrorChart = zedGraphControl2.GraphPane;
+            zedGraphControl2.ZoomOutAll(observationalErrorChart);
+            observationalErrorChart.CurveList.Clear();
+            richTextBox1.Text = "";
+            return approximationChart;
+        }
+
+        private string GetValue(ApproximatingFunction aprox_function, GraphPane pane, GraphPane pane2, double xmin, double xmax, List<Section> section)
+        {
+            PointPairList list = AppUtils.GetPointPairsInRange(xmin, xmax, _function);
             var list1 = new PointPairList();
             var aprox = new PointPairList();
 
@@ -127,7 +145,7 @@ namespace Spline
             {
                 for (double x = section[i].LeftPoint; x <= section[i].RightPoint; x += 0.001)
                 {
-                    double fx = aproxFunction.GetAproximatingFunction(x, section[i].Coef);
+                    double fx = aprox_function.GetAproximating_function(x, section[i].Coef);
 
                     aprox.Add(x, fx);
                 }
@@ -143,7 +161,7 @@ namespace Spline
             }
 
 
-            LineItem myCurve = pane.AddCurve(Resources.ChartFunctionName, list, Color.Blue, SymbolType.None);
+            LineItem myCurve = pane.AddCurve(Resources.Chart_functionName, list, Color.Blue, SymbolType.None);
             LineItem myCurve2 = pane.AddCurve(Resources.ChartSplineName, aprox, Color.Red, SymbolType.None);
 
             pane.XAxis.MajorGrid.IsVisible = true;
@@ -155,7 +173,7 @@ namespace Spline
             zedGraphControl1.Invalidate();
             list1.Clear();
 
-            Logger.Info("Mu  function max value of each section for function " + Function.ToString(), "MainForm");
+            Logger.Info("Mu  _function max value of each section for _function " + _function.ToString(), "MainForm");
             int LogCounter = 1;
             double max = 0;
             foreach (Section sec in section)
@@ -164,7 +182,7 @@ namespace Spline
                 
                 for (double x = sec.LeftPoint; x <= sec.RightPoint; x += 0.001)
                 {
-                    double fx = Math.Abs(Function.Val(x) - aproxFunction.GetAproximatingFunction(x, coef));
+                    double fx = Math.Abs(_function.Val(x) - aprox_function.GetAproximating_function(x, coef));
                     if (fx > max) max = fx;
                     list1.Add(x, fx);
                 }
@@ -206,10 +224,10 @@ namespace Spline
 
         private void comboBox1_SelectedValueChanged(object sender, EventArgs e)
         {
-            AppMath.BaseFunc SelectedFunction = ((ComboBoxItem)comboBox1.SelectedItem).GetFunction();
-            if (SelectedFunction.GetNumberOfParametrs() > 0)
+            AppMath.BaseFunc selectedFunction = ((ComboBoxItem)comboBox1.SelectedItem).Get_function();
+            if (selectedFunction.GetNumberOfParametrs() > 0)
             {
-                ParametrsForm parametrsForm = new ParametrsForm(this, SelectedFunction.GetNumberOfParametrs());
+                ParametrsForm parametrsForm = new ParametrsForm(this, selectedFunction.GetNumberOfParametrs());
                 parametrsForm.Show();
                 
             }
@@ -263,6 +281,9 @@ namespace Spline
                 progressIndicator1.Hide();
                 progressIndicator2.Hide();
                 progressIndicator3.Hide();
+
+                button1.Enabled = true;
+                button2.Enabled = false;
             }
            
         }
@@ -276,9 +297,10 @@ namespace Spline
             progressIndicator3.Show();
             progressIndicator1.Start();
             progressIndicator2.Start();
-            progressIndicator3.Start(); 
-           
+            progressIndicator3.Start();
+
+            button1.Enabled = false;
+            button2.Enabled = true;
         }
-       
     }
 }

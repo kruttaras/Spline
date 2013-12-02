@@ -7,66 +7,83 @@ using System.Collections.Generic;
 
 namespace Spline
 {
-    class ApproximationWithGivenNumberOfSections: ApproximationAlgorithm<ApproximationWithGivenNumberOfSections>
+    class ApproximationWithGivenNumberOfSections : ApproximationAlgorithm
     {
-        public override List<Section> Compute(double leftBorder, double rightBorder, AppMath.BaseFunc func, ApproximatingFunction approximatingFunction, double observationalError, int numberOfSections = 1)
-        {
 
+        protected int _numberOfSections = 1;
+
+        public int NumberOfSections
+        {
+            get { return _numberOfSections; }
+            set { _numberOfSections = value; }
+        }
+
+
+        public override List<Section> Compute()
+        {
             List<Section> section;
             double muPlus = 0, muMinus = 0;
             int sectionCount;
+            var builder = new AlgorithmBuilder();
+
+            builder = builder.SetBorders(_leftBorder, _rightBorder)
+                .SetFunction(_func)
+                .SetApproximatingFunction(_approximatingFunction);
 
             do
             {
-                section = ApproximationWithGivenObservationalError.Instance.Compute(leftBorder, rightBorder, func, approximatingFunction, observationalError);
+                IApproximationAlgorithm algorithm = builder.SetObservationalError(_observationalError).Build();
+
+                section = algorithm.Compute();
                 sectionCount = section.Count;
-                if (sectionCount > numberOfSections)
+
+                if (sectionCount > _numberOfSections)
                 {
-                    muMinus = observationalError;
+                    muMinus = _observationalError;
                     if (!Equals(muPlus, 0.0))
                     {
-                        
-                        observationalError = (observationalError + muPlus) / 2;
 
-                        if (Equals(observationalError, muMinus))
+                        _observationalError = (_observationalError + muPlus) / 2;
+
+                        if (Equals(_observationalError, muMinus))
                         {
 
-                            sectionCount = numberOfSections;
+                            sectionCount = _numberOfSections;
                             
                         }
 
                     }
                     else
                     {
-                        observationalError *= 1.1;
+                        _observationalError *= 1.1;
                     }
 
                 }
-                if (sectionCount < numberOfSections || (numberOfSections == sectionCount && (observationalError - section[sectionCount - 1].Mu) / observationalError > 0.1))
+                if (sectionCount < _numberOfSections || (_numberOfSections == sectionCount && (_observationalError - section[sectionCount - 1].Mu) / _observationalError > 0.1))
                 {
-                    muPlus = observationalError;
+                    muPlus = _observationalError;
                     sectionCount = -1;
                     if ( !Equals(muMinus, 0.0))
                     {
-                        Logger.Info("Start computing observationalError in zadana k-t lanok # observationalError=" + observationalError + "and muMinus=" + muMinus, "Spline");
-                        observationalError = (observationalError + muMinus) / 2.0;
-                        Logger.Info("Result # observationalError=" + observationalError, "Spline");
+                        Logger.Info("Start computing observationalError in zadana k-t lanok # observationalError=" + _observationalError + "and muMinus=" + muMinus, "Spline");
+                        _observationalError = (_observationalError + muMinus) / 2.0;
+                        Logger.Info("Result # _observationalError=" + _observationalError, "Spline");
 
-                        if (Equals(observationalError, muPlus))
+                        if (Equals(_observationalError, muPlus))
                         {
-                            sectionCount = numberOfSections;
+                            sectionCount = _numberOfSections;
                         }
 
                     }
                     else
                     {
-                        observationalError *= 0.9;
+                        _observationalError *= 0.9;
                     }
 
 
                 }
 
-            } while (numberOfSections != sectionCount);
+            } while (_numberOfSections != sectionCount);
 
             return section;
         }

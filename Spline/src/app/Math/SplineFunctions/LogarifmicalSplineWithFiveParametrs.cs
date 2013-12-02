@@ -3,9 +3,9 @@ using Spline.Models;
 
 namespace Spline
 {
-    class Logarifmical5Spline : ApproximatingFunction
+    class LogarifmicalSplineWithFiveParametrs : ApproximatingFunction
     {
-                public Logarifmical5Spline()
+                public LogarifmicalSplineWithFiveParametrs()
         {
             Text = "Логарифмічна - 5";
         }
@@ -41,7 +41,7 @@ namespace Spline
             return a;
         }
 
-        public override double GetAproximatingFunction(double x, double[] a)
+        public override double GetAproximating_function(double x, double[] a)
         {
             return Math.Log(a[0] + a[1] * x + a[2] * Math.Pow(x, 2) + a[3] * Math.Pow(x, 3)+ a[4] * Math.Pow(x, 4));
         }

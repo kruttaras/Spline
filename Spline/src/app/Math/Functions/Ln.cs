@@ -29,15 +29,25 @@ namespace Spline.Models
             switch (i)
             {
                 case 1:
-                    return (4 * p[4] * x * x * x + 3 * p[3] * x * x + 2 * p[2] * x + p[1]) / (p[4] * Math.Pow(x, 4) + p[3] * Math.Pow(x, 3) + p[2] * Math.Pow(x, 2) + p[1] * x + p[0]);
+                    return 1/x;
                     break;
                 case 2:
-                    return (-1 / Math.Pow(x, 2));
+                    return SecondDiff(x);
                     break;
                 default:
                     throw new Exception();
                     break;
             }
+        }
+
+        private double SecondDiff(double x)
+        {
+            double[] p = Params;
+            double chus = p[4]*Math.Pow(x, 4) + p[3]*Math.Pow(x, 3) + p[2]*Math.Pow(x, 2) + p[1]*x + p[0];
+            double res1 = 12*p[4]*Math.Pow(x, 2) + 6*p[3]*x + 2*p[2];
+            double res2 = 4*p[4]*Math.Pow(x, 3) + 3*p[3]*Math.Pow(x, 2) + 2*p[2]*x + p[1];
+            
+            return (res1/chus-Math.Pow(res2,2)/Math.Pow(chus,2));
         }
     }
 }

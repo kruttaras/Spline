@@ -61,8 +61,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="src\app\Math\ApproximationAlgorithms\AlgorithmBuilder.cs" />
     <Compile Include="src\app\Math\ApproximationAlgorithms\ApproximationAlgorithm.cs" />
     <Compile Include="src\app\Math\ApproximationAlgorithms\ApproximationWithGivenNumberOfSections.cs" />
+    <Compile Include="src\app\Math\ApproximationAlgorithms\IApproximationAlgorithm.cs" />
     <Compile Include="src\app\Math\Functions\Division.cs" />
     <Compile Include="src\app\Math\Functions\Exp.cs" />
     <Compile Include="src\app\Math\Functions\Ln.cs" />
@@ -70,12 +73,12 @@
     <Compile Include="src\app\Math\Functions\Sin.cs" />
     <Compile Include="src\app\Math\Functions\SquerOfSinPlusCos.cs" />
     <Compile Include="src\app\Math\Functions\Tng.cs" />
-    <Compile Include="src\app\Math\SplineFunctions\ExponencialSpline.cs" />
-    <Compile Include="src\app\Math\SplineFunctions\Exponential5Spline.cs" />
-    <Compile Include="src\app\Math\SplineFunctions\Logarifmical5Spline.cs" />
-    <Compile Include="src\app\Math\SplineFunctions\Multivalue4Spline.cs" />
-    <Compile Include="src\app\Math\SplineFunctions\LogarifmicalSpline.cs" />
-    <Compile Include="src\app\Math\SplineFunctions\Multivalue5Spline.cs" />
+    <Compile Include="src\app\Math\SplineFunctions\ExponencialSplineWithFourParametrs.cs" />
+    <Compile Include="src\app\Math\SplineFunctions\ExponentialSplineWithFiveParametrs.cs" />
+    <Compile Include="src\app\Math\SplineFunctions\LogarifmicalSplineWithFiveParametrs.cs" />
+    <Compile Include="src\app\Math\SplineFunctions\MultivalueSplineWithFourParametrs.cs" />
+    <Compile Include="src\app\Math\SplineFunctions\LogarifmicalSplineWithFourParametrs.cs" />
+    <Compile Include="src\app\Math\SplineFunctions\MultivalueSplineWithFiveParametrs.cs" />
     <Compile Include="src\app\Utils\Logger.cs" />
     <Compile Include="src\app\Math\SplineFunctions\IAproximatingFunction.cs" />
     <Compile Include="MainForm.cs">
@@ -107,6 +110,7 @@
     <Compile Include="src\tests\BaseSplineTest.cs" />
     <Compile Include="src\tests\Exponencial5SplineTest.cs" />
     <Compile Include="src\tests\ExponencialSplineTest.cs" />
+    <Compile Include="src\tests\LogafifmicalSplineWith4ParametrsTest.cs" />
     <Compile Include="src\tests\Logarifmical5SplineTest.cs" />
   </ItemGroup>
   <ItemGroup>

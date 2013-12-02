@@ -19,23 +19,23 @@ namespace Spline.Models
         {
         }
 
-        public ComboBoxItem(ComboBoxBaseItem func)
+        public ComboBoxItem(ComboBoxBaseItem _func)
         {
-            this.Text = func.Text;
-            this.Value = func;
+            this.Text = _func.Text;
+            this.Value = _func;
         }
 
-        public AppMath.BaseFunc GetFunction()
+        public AppMath.BaseFunc Get_function()
         {
-            return GetTemplateFunction<AppMath.BaseFunc>();  
+            return GetTemplate_function<AppMath.BaseFunc>();  
         }
 
-        public ApproximatingFunction GetAproximatingFunction()
+        public ApproximatingFunction GetAproximating_function()
         {
-            return GetTemplateFunction<ApproximatingFunction>();
+            return GetTemplate_function<ApproximatingFunction>();
         }
 
-        private T GetTemplateFunction<T>()
+        private T GetTemplate_function<T>()
         {
             if (this.Value is T)
             {

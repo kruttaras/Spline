@@ -7,7 +7,7 @@ namespace Spline.Models
 {
     public static class AppUtils
     {
-        public static IList<AppMath.BaseFunc> GetAllFunctions()
+        public static IList<AppMath.BaseFunc> GetAll_functions()
         {
             IList<AppMath.BaseFunc> functions = new List<AppMath.BaseFunc>();
 
@@ -28,7 +28,7 @@ namespace Spline.Models
             return functions;
         }
         //TODO refactor this and that
-        public static IList<ApproximatingFunction> GetAllAproximatingFunctions()
+        public static IList<ApproximatingFunction> GetAllAproximating_functions()
         {
             IList<ApproximatingFunction> functions = new List<ApproximatingFunction>();
 
@@ -49,9 +49,9 @@ namespace Spline.Models
             return functions;
         }
 
-        public static object[] GetComboboxItemsWithFunctions()
+        public static object[] GetComboboxItemsWith_functions()
         {
-            IList<AppMath.BaseFunc> functions = GetAllFunctions();
+            IList<AppMath.BaseFunc> functions = GetAll_functions();
             var cbItems = new object[functions.Count];
             for (int i = 0; i < cbItems.Length; i++)
             {
@@ -60,9 +60,9 @@ namespace Spline.Models
             return cbItems;
         }
 
-        public static object[] GetComboboxItemsWithAproximatingFunctions()
+        public static object[] GetComboboxItemsWithAproximating_functions()
         {
-            IList<ApproximatingFunction> functions = GetAllAproximatingFunctions();
+            IList<ApproximatingFunction> functions = GetAllAproximating_functions();
             var cbItems = new object[functions.Count];
             for (int i = 0; i < cbItems.Length; i++)
             {
@@ -87,5 +87,6 @@ namespace Spline.Models
             }
             return pointsList;
         }
+
     }
 }
